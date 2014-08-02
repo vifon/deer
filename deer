@@ -148,8 +148,7 @@ deer-launch()
                 break
                 ;;
             i)
-                LBUFFER+=$RBUFFER
-                deer-restore
+                deer-restore $RBUFFER
                 break
                 ;;
             c)
@@ -167,6 +166,7 @@ zle -N deer-launch
 deer-restore()
 {
     BUFFER=$OLD_BUFFER
+    [ -n "$1" ] && LBUFFER+=$1
     zle redisplay
     zle -M ""
 }
