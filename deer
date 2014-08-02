@@ -114,8 +114,16 @@ deer-launch()
                 deer-move up 1
                 deer-preview
                 ;;
+            K)
+                deer-move up 5
+                deer-preview
+                ;;
             j)
                 deer-move down 1
+                deer-preview
+                ;;
+            J)
+                deer-move down 5
                 deer-preview
                 ;;
             l)
