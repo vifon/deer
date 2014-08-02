@@ -119,6 +119,16 @@ deer-launch()
                 deer-leave
                 deer-preview
                 ;;
+
+            /)
+                BUFFER=""
+                zle recursive-edit
+                DEER_BASENAME=($DEER_DIRNAME/${~BUFFER}*(N:t))
+                DEER_BASENAME=$DEER_BASENAME[1]
+                BUFFER=$OLD_BUFFER
+                deer-preview
+                ;;
+
             q)
                 deer-restore
                 break
