@@ -1,0 +1,148 @@
+# -*- mode: shell-script -*-
+# vim: set ft=zsh :
+#########################################################################
+# Copyright (C) 2014  Wojciech Siewierski                               #
+#                                                                       #
+# This program is free software: you can redistribute it and/or modify  #
+# it under the terms of the GNU General Public License as published by  #
+# the Free Software Foundation, either version 3 of the License, or     #
+# (at your option) any later version.                                   #
+#                                                                       #
+# This program is distributed in the hope that it will be useful,       #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+# GNU General Public License for more details.                          #
+#                                                                       #
+# You should have received a copy of the GNU General Public License     #
+# along with this program.  If not, see <http://www.gnu.org/licenses/>. #
+#########################################################################
+
+
+deer-move()
+{
+    local BASENAME FILES DIRECTION COUNT
+    DIRECTION=$1
+    COUNT=${2:-1}
+
+    FILES=($DEER_DIRNAME/*(N:t))
+    BASENAME=$DEER_BASENAME
+
+    case $DIRECTION in
+        up)
+            BASENAME="$(print -l $FILES | grep -Fx -B$COUNT -m1 "$BASENAME" | head -n1)"
+            ;;
+        down)
+            BASENAME="$(print -l $FILES | grep -Fx -A$COUNT -m1 "$BASENAME" | tail -n1)"
+            ;;
+    esac
+    DEER_BASENAME=$BASENAME
+}
+
+deer-enter()
+{
+    DEER_DIRNAME=$DEER_DIRNAME${DEER_BASENAME:+/$DEER_BASENAME}
+
+    # get the first directory
+    DEER_BASENAME=($DEER_DIRNAME/*(N:t))
+    DEER_BASENAME=$DEER_BASENAME[1]
+}
+
+deer-leave()
+{
+    [ $DEER_DIRNAME = / ] && return
+    DEER_BASENAME=$DEER_DIRNAME:t
+    DEER_DIRNAME=$DEER_DIRNAME:h
+}
+
+deer-preview()
+{
+    local BASENAME FILES PREVIEW OUTPUT HEIGHT
+    HEIGHT=15
+
+    RBUFFER=$DEER_DIRNAME/$DEER_BASENAME
+
+    FILES=($DEER_DIRNAME/*(N:t))
+    BASENAME=$DEER_BASENAME
+
+    # TODO: correct preview height on the directory edges
+    FILES="$(print -l $FILES | grep -Fx -C$[(HEIGHT-1)/2] -m1 -- "$BASENAME:t" | perl -pe 's/^('"$BASENAME:q"'\n)/-> $1/ or $_="   $_"')"
+
+    BASENAME=$DEER_DIRNAME/$BASENAME
+
+    if [ -f $BASENAME ]; then
+        if file $BASENAME | grep -Fq text; then
+            PREVIEW=$(head -n$HEIGHT $BASENAME)
+            PREVIEW="--- Preview: ---"$'\n'$PREVIEW
+        fi
+    else
+        PREVIEW=($BASENAME/*(N:t))
+        PREVIEW=${(F)PREVIEW[1,$HEIGHT]}
+    fi
+
+    if [[ $#PREVIEW != 0 ]]; then
+        OUTPUT="$(paste -d/ <(<<< ${(F)FILES}) <(<<< $PREVIEW) | column -t -s/ | cut -c 1-$[COLUMNS-1])"
+    else
+        OUTPUT=${(F)FILES}
+    fi
+    zle -M -- $OUTPUT
+    zle -R
+}
+
+deer-launch()
+{
+    local REPLY BASENAME OLD_BUFFER
+
+    OLD_BUFFER=$BUFFER
+
+    DEER_DIRNAME=$PWD
+
+    # get the first directory
+    DEER_BASENAME=($DEER_DIRNAME/*(N:t))
+    DEER_BASENAME=$DEER_BASENAME[1]
+
+    deer-preview
+    while read -k; do
+        case $REPLY in
+            k)
+                deer-move up 1
+                deer-preview
+                ;;
+            j)
+                deer-move down 1
+                deer-preview
+                ;;
+            l)
+                deer-enter
+                deer-preview
+                ;;
+            h|$'\014')          # \014 is Ctrl+L, from Helm for Emacs
+                deer-leave
+                deer-preview
+                ;;
+            q)
+                deer-restore
+                break
+                ;;
+            i)
+                LBUFFER+=$RBUFFER
+                deer-restore
+                break
+                ;;
+            c)
+                cd -- $RBUFFER
+                deer-restore
+                break
+                ;;
+        esac
+    done
+}
+zle -N deer-launch
+
+deer-restore()
+{
+    BUFFER=$OLD_BUFFER
+    zle redisplay
+    zle -M ""
+}
+
+bindkey '\ek' deer-launch
