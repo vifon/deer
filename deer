@@ -103,7 +103,6 @@ deer-launch()
 
     DEER_DIRNAME=$PWD
 
-    # get the first directory
     DEER_BASENAME=($DEER_DIRNAME/*(N:t))
     DEER_BASENAME=$DEER_BASENAME[1]
 
