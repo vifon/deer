@@ -139,9 +139,11 @@ deer-launch()
                 break
                 ;;
             c)
-                cd -- $RBUFFER
-                deer-restore
-                break
+                if [[ -d $RBUFFER && -x $RBUFFER ]]; then
+                    cd -- $RBUFFER
+                    deer-restore
+                    break
+                fi
                 ;;
         esac
     done
