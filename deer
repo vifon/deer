@@ -65,7 +65,14 @@ deer-preview()
     BASENAME=$DEER_BASENAME
 
     # TODO: correct preview height on the directory edges
-    FILES="$(print -l $FILES | grep -Fx -C$[(HEIGHT-1)/2] -m1 -- "$BASENAME:t" | perl -pe 's/^('"$BASENAME:q"'\n)/-> $1/ or $_="   $_"')"
+    FILES="$(print -l $FILES \
+               | grep -Fx -C$[(HEIGHT-1)/2] -m1 -- "$BASENAME:t" \
+               | perl -pe 'BEGIN{$name = shift}
+                           if ($name."\n" eq $_) {
+                               $_="-> $_"
+                           } else {
+                               $_="   $_"
+                           }' -- $BASENAME)"
 
     BASENAME=$DEER_DIRNAME/$BASENAME
 
