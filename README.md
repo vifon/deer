@@ -29,7 +29,7 @@ Just source the `deer` main file from your `zshrc`:
 SEE ALSO
 --------
 
-ranger(1)
+ranger(1), zsh(1)
 
 AUTHOR
 ------
