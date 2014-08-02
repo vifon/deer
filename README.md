@@ -4,8 +4,8 @@ deer
 DESCRIPTION
 -----------
 
-`deer` is a file manager for zsh heavily inspired by
-[ranger](http://ranger.nongnu.org/).
+`deer` is a file manager for [zsh](http://zsh.sourceforge.net/) heavily inspired
+by [ranger](http://ranger.nongnu.org/).
 
 USAGE
 -----
