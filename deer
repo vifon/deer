@@ -68,7 +68,7 @@ deer-search()
 deer-preview()
 {
     local BASENAME FILES PREVIEW OUTPUT HEIGHT
-    HEIGHT=15
+    HEIGHT=22
 
     LBUFFER=""
     RBUFFER=$DEER_DIRNAME/$DEER_BASENAME
@@ -76,22 +76,23 @@ deer-preview()
     FILES=($DEER_DIRNAME/*(N:t))
     BASENAME=$DEER_BASENAME
 
-    # TODO: correct preview height on the directory edges
-    FILES="$(print -l $FILES \
-               | grep -Fx -C$[(HEIGHT-1)/2] -m1 -- "$BASENAME:t" \
-               | perl -pe 'BEGIN{$name = shift}
-                           if ($name."\n" eq $_) {
-                               $_="-> $_"
-                           } else {
-                               $_="   $_"
-                           }' -- $BASENAME)"
+    local IFS=$'\n'
+    FILES=($(print -l $FILES \
+              | grep -Fx -B5 -A$HEIGHT -m1 -- "$BASENAME:t" \
+              | perl -pe 'BEGIN{$name = shift}
+                          if ($name."\n" eq $_) {
+                              $_="-> $_"
+                          } else {
+                              $_="   $_"
+                          }' -- $BASENAME))
+    unset IFS
+    FILES=(${(F)FILES[1,$HEIGHT]})
 
     BASENAME=$DEER_DIRNAME/$BASENAME
 
     if [ -f $BASENAME ]; then
         if file $BASENAME | grep -Fq text; then
-            PREVIEW=$(head -n$HEIGHT $BASENAME)
-            PREVIEW="--- Preview: ---"$'\n'$PREVIEW
+            PREVIEW="--- Preview: ---"$'\n'$(head -n$HEIGHT $BASENAME)
         fi
     else
         PREVIEW=($BASENAME/*(N:t))
@@ -99,7 +100,7 @@ deer-preview()
     fi
 
     if [[ $#PREVIEW != 0 ]]; then
-        OUTPUT="$(paste -d/ <(<<< ${(F)FILES}) <(<<< $PREVIEW) | column -t -s/ | cut -c 1-$[COLUMNS-1])"
+        OUTPUT="$(paste -d/ <(<<< $FILES) <(<<< $PREVIEW) | column -t -s/ | cut -c 1-$[COLUMNS-1])"
     else
         OUTPUT=${(F)FILES}
     fi

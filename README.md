@@ -35,12 +35,6 @@ The previews of files containing slashes are broken due to the way the
 output is formatted into columns. I plan to fix this once everything
 else will work as intended.
 
-**Strangely short file list**
-
-When the cursor is at the beginning or end of the file list, the list
-behaves a bit strange. You'll know what I mean when you see it. It is
-caused by the usage of `grep -C`.
-
 SEE ALSO
 --------
 
