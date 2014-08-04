@@ -117,10 +117,8 @@ deer-launch()
     OLD_BUFFER=$BUFFER
     PREDISPLAY="deer: "
 
-    DEER_DIRNAME=$PWD
-
-    DEER_BASENAME=($DEER_DIRNAME/*(N:t))
-    DEER_BASENAME=$DEER_BASENAME[1]
+    DEER_DIRNAME=$PWD:h
+    DEER_BASENAME=$PWD:t
 
     deer-preview
     while read -k; do
