@@ -40,6 +40,8 @@ deer-move()
 
 deer-enter()
 {
+    [ -d $DEER_DIRNAME/$DEER_BASENAME ] || return
+
     DEER_DIRNAME=$DEER_DIRNAME${DEER_BASENAME:+/$DEER_BASENAME}
 
     # get the first directory
