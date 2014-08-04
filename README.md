@@ -35,6 +35,12 @@ The previews of files containing slashes are broken due to the way the
 output is formatted into columns. I plan to fix this once everything
 else will work as intended.
 
+**Garbled subdirectory listing**
+
+Before `util-linux 2.23` there was a bug in `column(1)` that is the
+cause of it. I cannot do much. If I recall correctly, Ubuntu and
+Debian might still be affected.
+
 SEE ALSO
 --------
 
