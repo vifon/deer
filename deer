@@ -42,7 +42,7 @@ deer-enter()
 {
     [ -d $DEER_DIRNAME/$DEER_BASENAME ] || return
 
-    DEER_DIRNAME=$DEER_DIRNAME${DEER_BASENAME:+/$DEER_BASENAME}
+    DEER_DIRNAME=$DEER_DIRNAME$DEER_BASENAME/
 
     # get the first directory
     DEER_BASENAME=($DEER_DIRNAME/*(N:t))
@@ -54,6 +54,7 @@ deer-leave()
     [ $DEER_DIRNAME = / ] && return
     DEER_BASENAME=$DEER_DIRNAME:t
     DEER_DIRNAME=$DEER_DIRNAME:h
+    [ $DEER_DIRNAME = / ] || DEER_DIRNAME+=/
 }
 
 deer-search()
@@ -73,7 +74,7 @@ deer-preview()
     HEIGHT=22
 
     LBUFFER=""
-    RBUFFER=$DEER_DIRNAME/$DEER_BASENAME
+    RBUFFER=$DEER_DIRNAME$DEER_BASENAME
 
     FILES=($DEER_DIRNAME/*(N:t))
     BASENAME=$DEER_BASENAME
@@ -117,8 +118,8 @@ deer-launch()
     OLD_BUFFER=$BUFFER
     PREDISPLAY="deer: "
 
-    DEER_DIRNAME=$PWD:h
-    DEER_BASENAME=$PWD:t
+    DEER_DIRNAME=$PWD
+    deer-leave
 
     deer-preview
     while read -k; do
