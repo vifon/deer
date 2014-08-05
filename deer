@@ -159,12 +159,12 @@ deer-launch()
                 break
                 ;;
             i)
-                deer-restore $RBUFFER
+                deer-restore $BUFFER
                 break
                 ;;
             c)
-                if [[ -d $RBUFFER && -x $RBUFFER ]]; then
-                    cd -- $RBUFFER
+                if [[ -d $BUFFER && -x $BUFFER ]]; then
+                    cd -- $BUFFER
                     deer-restore
                     break
                 fi
