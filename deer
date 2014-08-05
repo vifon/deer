@@ -96,6 +96,10 @@ deer-preview()
     if [ -f $BASENAME ]; then
         if file $BASENAME | grep -Fq text; then
             PREVIEW="--- Preview: ---"$'\n'$(head -n$HEIGHT $BASENAME)
+
+            # Replace '/' with '\' to allow using it as a
+            # paste(1)/column(1) separator.
+            PREVIEW=${PREVIEW//\//\\}
         fi
     else
         PREVIEW=($BASENAME/*(N:t))

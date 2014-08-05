@@ -29,11 +29,11 @@ Just source the `deer` main file from your `zshrc`:
 KNOWN ISSUES
 ------------
 
-**Garbled file previews**
+**Slashes are replaced with backslashes in file previews**
 
-The previews of files containing slashes are broken due to the way the
-output is formatted into columns. I plan to fix this once everything
-else will work as intended.
+This is an ugly workaround the issues with the way the output is
+formatted (slash is used as a separator for `paste(1)` and
+`column(1)` as it cannot appear in the filename).
 
 **Garbled subdirectory listing**
 
