@@ -21,22 +21,20 @@ DEER_HEIGHT=22
 
 deer-move()
 {
-    local BASENAME FILES DIRECTION COUNT
+    local FILES DIRECTION COUNT
     DIRECTION=$1
     COUNT=${2:-1}
 
     FILES=($DEER_DIRNAME/*(N:t))
-    BASENAME=$DEER_BASENAME
 
     case $DIRECTION in
         up)
-            BASENAME="$(print -l $FILES | grep -Fx -B$COUNT -m1 "$BASENAME" | head -n1)"
+            DEER_BASENAME="$(print -l $FILES | grep -Fx -B$COUNT -m1 "$DEER_BASENAME" | head -n1)"
             ;;
         down)
-            BASENAME="$(print -l $FILES | grep -Fx -A$COUNT -m1 "$BASENAME" | tail -n1)"
+            DEER_BASENAME="$(print -l $FILES | grep -Fx -A$COUNT -m1 "$DEER_BASENAME" | tail -n1)"
             ;;
     esac
-    DEER_BASENAME=$BASENAME
 }
 
 deer-enter()
@@ -86,39 +84,34 @@ deer--mark-file-list()
 
 deer-preview()
 {
-    local BASENAME FILES PREVIEW PARENTFILES OUTPUT
+    local FILES PREVIEW PARENTFILES OUTPUT
 
     LBUFFER=$DEER_DIRNAME
     RBUFFER=$DEER_BASENAME
 
+
     FILES=($DEER_DIRNAME/*(N:t))
-    BASENAME=$DEER_BASENAME
-
-
-    local IFS=$'\n'
-    FILES=($(deer--mark-file-list "$BASENAME" $FILES))
-    unset IFS
-    FILES=(${(F)FILES[1,$DEER_HEIGHT]})
-
-
     PARENTFILES=($DEER_DIRNAME:h/*(N:t))
+
     local IFS=$'\n'
+    FILES=($(deer--mark-file-list "$DEER_BASENAME" $FILES))
     PARENTFILES=($(deer--mark-file-list "$DEER_DIRNAME:t" $PARENTFILES))
     unset IFS
+
+    FILES=(${(F)FILES[1,$DEER_HEIGHT]})
     PARENTFILES=(${(F)PARENTFILES[1,$DEER_HEIGHT]})
 
 
-    BASENAME=$DEER_DIRNAME/$BASENAME
-    if [ -f $BASENAME ]; then
-        if file $BASENAME | grep -Fq text; then
-            PREVIEW="--- Preview: ---"$'\n'$(head -n$DEER_HEIGHT $BASENAME)
+    if [ -f $DEER_DIRNAME/$DEER_BASENAME ]; then
+        if file $DEER_DIRNAME/$DEER_BASENAME | grep -Fq text; then
+            PREVIEW="--- Preview: ---"$'\n'$(head -n$DEER_HEIGHT $DEER_DIRNAME/$DEER_BASENAME)
 
             # Replace '/' with '\' to allow using it as a
             # paste(1)/column(1) separator.
             PREVIEW=${PREVIEW//\//\\}
         fi
     else
-        PREVIEW=($BASENAME/*(N:t))
+        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME/*(N:t))
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
@@ -133,7 +126,7 @@ deer-preview()
 
 deer-launch()
 {
-    local REPLY BASENAME OLD_BUFFER
+    local REPLY OLD_BUFFER
 
     OLD_BUFFER=$BUFFER
     PREDISPLAY="deer: "
