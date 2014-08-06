@@ -128,9 +128,10 @@ deer-preview()
 
 deer-launch()
 {
-    local REPLY OLD_BUFFER
+    local REPLY OLD_LBUFFER OLD_RBUFFER
 
-    OLD_BUFFER=$BUFFER
+    OLD_LBUFFER=$LBUFFER
+    OLD_RBUFFER=$RBUFFER
     PREDISPLAY="deer: "
 
     DEER_DIRNAME=$PWD
@@ -192,7 +193,8 @@ zle -N deer-launch
 deer-restore()
 {
     PREDISPLAY=""
-    BUFFER=$OLD_BUFFER
+    LBUFFER=$OLD_LBUFFER
+    RBUFFER=$OLD_RBUFFER
     [ -n "$1" ] && LBUFFER+=$1
     zle redisplay
     zle -M ""
