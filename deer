@@ -86,7 +86,7 @@ deer--mark-file-list()
 
 deer-preview()
 {
-    local BASENAME FILES PREVIEW OUTPUT
+    local BASENAME FILES PREVIEW PARENTFILES OUTPUT
 
     LBUFFER=$DEER_DIRNAME
     RBUFFER=$DEER_BASENAME
@@ -94,13 +94,21 @@ deer-preview()
     FILES=($DEER_DIRNAME/*(N:t))
     BASENAME=$DEER_BASENAME
 
+
     local IFS=$'\n'
     FILES=($(deer--mark-file-list "$BASENAME" $FILES))
     unset IFS
     FILES=(${(F)FILES[1,$DEER_HEIGHT]})
 
-    BASENAME=$DEER_DIRNAME/$BASENAME
 
+    PARENTFILES=($DEER_DIRNAME:h/*(N:t))
+    local IFS=$'\n'
+    PARENTFILES=($(deer--mark-file-list "$DEER_DIRNAME:t" $PARENTFILES))
+    unset IFS
+    PARENTFILES=(${(F)PARENTFILES[1,$DEER_HEIGHT]})
+
+
+    BASENAME=$DEER_DIRNAME/$BASENAME
     if [ -f $BASENAME ]; then
         if file $BASENAME | grep -Fq text; then
             PREVIEW="--- Preview: ---"$'\n'$(head -n$DEER_HEIGHT $BASENAME)
@@ -114,11 +122,11 @@ deer-preview()
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
-    if [[ $#PREVIEW != 0 ]]; then
-        OUTPUT="$(paste -d/ <(<<< $FILES) <(<<< $PREVIEW) | column -t -s/ | cut -c 1-$[COLUMNS-1])"
-    else
-        OUTPUT=${(F)FILES}
-    fi
+    OUTPUT="$(paste -d/ <(<<< $PARENTFILES | cut -c 1-16) \
+                        <(<<< $FILES)                     \
+                        <(<<< $PREVIEW)                   \
+                | column -t -s/                           \
+                | cut -c 1-$[COLUMNS-1])"
     zle -M -- $OUTPUT
     zle -R
 }
