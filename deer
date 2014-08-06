@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. #
 #########################################################################
 
+DEER_HEIGHT=22
 
 deer-move()
 {
@@ -68,10 +69,24 @@ deer-search()
     PREDISPLAY="deer: "
 }
 
+deer--mark-file-list()
+{
+    local MARKED=$1
+    shift
+
+    print -l "$@" \
+        | grep -Fx -B5 -A$DEER_HEIGHT -m1 -- "$MARKED" \
+        | perl -pe 'BEGIN{$name = shift}
+                    if ($name."\n" eq $_) {
+                        $_="-> $_"
+                    } else {
+                        $_="   $_"
+                    }' -- "$MARKED"
+}
+
 deer-preview()
 {
-    local BASENAME FILES PREVIEW OUTPUT HEIGHT
-    HEIGHT=22
+    local BASENAME FILES PREVIEW OUTPUT
 
     LBUFFER=$DEER_DIRNAME
     RBUFFER=$DEER_BASENAME
@@ -80,22 +95,15 @@ deer-preview()
     BASENAME=$DEER_BASENAME
 
     local IFS=$'\n'
-    FILES=($(print -l $FILES \
-              | grep -Fx -B5 -A$HEIGHT -m1 -- "$BASENAME:t" \
-              | perl -pe 'BEGIN{$name = shift}
-                          if ($name."\n" eq $_) {
-                              $_="-> $_"
-                          } else {
-                              $_="   $_"
-                          }' -- $BASENAME))
+    FILES=($(deer--mark-file-list "$BASENAME" $FILES))
     unset IFS
-    FILES=(${(F)FILES[1,$HEIGHT]})
+    FILES=(${(F)FILES[1,$DEER_HEIGHT]})
 
     BASENAME=$DEER_DIRNAME/$BASENAME
 
     if [ -f $BASENAME ]; then
         if file $BASENAME | grep -Fq text; then
-            PREVIEW="--- Preview: ---"$'\n'$(head -n$HEIGHT $BASENAME)
+            PREVIEW="--- Preview: ---"$'\n'$(head -n$DEER_HEIGHT $BASENAME)
 
             # Replace '/' with '\' to allow using it as a
             # paste(1)/column(1) separator.
@@ -103,7 +111,7 @@ deer-preview()
         fi
     else
         PREVIEW=($BASENAME/*(N:t))
-        PREVIEW=${(F)PREVIEW[1,$HEIGHT]}
+        PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
     if [[ $#PREVIEW != 0 ]]; then
