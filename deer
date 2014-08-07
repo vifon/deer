@@ -135,7 +135,15 @@ deer-launch()
     PREDISPLAY="deer: "
 
     DEER_DIRNAME=$PWD
-    deer-leave
+    if [ -n "$NUMERIC" ]; then
+        for i in {1..$NUMERIC}; do
+            deer-leave
+        done
+    else
+        # Don't change cwd but initialize the variables.
+        deer-leave
+        deer-enter
+    fi
 
     deer-preview
     while read -k; do
