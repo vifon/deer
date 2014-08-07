@@ -21,20 +21,16 @@ DEER_HEIGHT=22
 
 deer-move()
 {
-    local FILES DIRECTION COUNT
-    DIRECTION=$1
-    COUNT=${2:-1}
+    local FILES MOVEMENT INDEX
+    MOVEMENT=$1
 
     FILES=($DEER_DIRNAME/*(N-/:t) $DEER_DIRNAME/*(N-^/:t))
 
-    case $DIRECTION in
-        up)
-            DEER_BASENAME="$(print -l $FILES | grep -Fx -B$COUNT -m1 "$DEER_BASENAME" | head -n1)"
-            ;;
-        down)
-            DEER_BASENAME="$(print -l $FILES | grep -Fx -A$COUNT -m1 "$DEER_BASENAME" | tail -n1)"
-            ;;
-    esac
+    INDEX=${(k)FILES[(r)$DEER_BASENAME]}
+
+    if (( INDEX+MOVEMENT > 0 && INDEX+MOVEMENT <= $#FILES )); then
+        DEER_BASENAME=$FILES[$INDEX+$MOVEMENT]
+    fi
 }
 
 deer-enter()
@@ -166,19 +162,19 @@ deer-launch()
     while read -k; do
         case $REPLY in
             k)
-                deer-move up 1
+                deer-move -1
                 deer-preview
                 ;;
             K)
-                deer-move up 5
+                deer-move -5
                 deer-preview
                 ;;
             j)
-                deer-move down 1
+                deer-move 1
                 deer-preview
                 ;;
             J)
-                deer-move down 5
+                deer-move 5
                 deer-preview
                 ;;
             l)
