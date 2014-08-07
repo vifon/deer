@@ -122,11 +122,12 @@ deer-preview()
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
-    OUTPUT="$(paste -d/ <(<<< $PARENTFILES | cut -c 1-16) \
-                        <(<<< $FILES)                     \
-                        <(<<< $PREVIEW)                   \
-                | column -t -s/                           \
-                | cut -c 1-$[COLUMNS-1])"
+    OUTPUT="$(paste -d/ <(<<< $PARENTFILES                   \
+                            | awk '{print substr($0,1,16)}') \
+                        <(<<< $FILES)                        \
+                        <(<<< $PREVIEW)                      \
+                | column -t -s/                              \
+                | awk -vwidth=$COLUMNS '{print substr($0,1,width-1)}')"
     zle -M -- $OUTPUT
     zle -R
 }
