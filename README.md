@@ -4,8 +4,20 @@ deer
 DESCRIPTION
 -----------
 
-`deer` is a file manager for [zsh](http://zsh.sourceforge.net/) heavily inspired
-by [ranger](http://ranger.nongnu.org/).
+`deer` is a file navigator for [zsh](http://zsh.sourceforge.net/)
+heavily inspired by [ranger](http://ranger.nongnu.org/).
+
+**WHY**
+
+`deer` isn't in any way better than `ranger`. If you seek features,
+you're better off using the original.
+
+I've created `deer` because I really like to use `ranger` as an
+extension of my shell to navigate the directories but its startup time
+(even though still short) is sometimes too cumbersome. `deer`
+implements the very basic ranger-like file navigation + some basic
+operations on the commandline, like inserting the selected path (in
+various ways).
 
 USAGE
 -----
@@ -16,10 +28,8 @@ To launch `deer`, press `alt+k`. Now we have the following keys available:
 * `J`,`K` --  move by five files
 * `/` -- search
 * `q` -- quit and do nothing
-* `a` -- quit and paste before the cursor the selected file's path quoted
-* `A` -- quit and paste before the cursor the selected file's path unquoted
-* `i` -- quit and paste after the cursor the selected file's path quoted
-* `I` -- quit and paste after the cursor the selected file's path unquoted
+* `a` (`A`) -- quit and paste before the cursor the selected file's path quoted (unquoted)
+* `i` (`I`) -- quit and paste after the cursor the selected file's path quoted (unquoted)
 * `c` -- quit and cd into the current directory
 * `C` -- quit and cd into the selected directory
 
