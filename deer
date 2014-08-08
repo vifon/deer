@@ -137,7 +137,12 @@ deer-restore()
     PREDISPLAY=""
     LBUFFER=$OLD_LBUFFER
     RBUFFER=$OLD_RBUFFER
-    [ -n "$1" ] && LBUFFER+=$1
+    if [ "$1" = "--append" ]; then
+        shift
+        [ -n "$1" ] && LBUFFER+=$1
+    else
+        [ -n "$1" ] && RBUFFER=$1$RBUFFER
+    fi
     zle redisplay
     zle -M ""
 }
@@ -197,6 +202,14 @@ deer-launch()
 
             q)
                 deer-restore
+                break
+                ;;
+            a)
+                deer-restore --append $DEER_DIRNAME:q$DEER_BASENAME:q
+                break
+                ;;
+            A)
+                deer-restore --append $DEER_DIRNAME$DEER_BASENAME
                 break
                 ;;
             i)
