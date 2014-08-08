@@ -28,7 +28,11 @@ deer-move()
 
     INDEX=${(k)FILES[(r)$DEER_BASENAME]}
 
-    if (( INDEX+MOVEMENT > 0 && INDEX+MOVEMENT <= $#FILES )); then
+    if (( INDEX+MOVEMENT <= 0 )); then
+        DEER_BASENAME=$FILES[1]
+    elif (( INDEX+MOVEMENT > $#FILES )); then
+        DEER_BASENAME=$FILES[$#FILES]
+    else
         DEER_BASENAME=$FILES[$INDEX+$MOVEMENT]
     fi
 }
