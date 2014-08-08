@@ -26,7 +26,7 @@ deer-move()
 
     FILES=($DEER_DIRNAME/*(N-/:t) $DEER_DIRNAME/*(N-^/:t))
 
-    INDEX=${(k)FILES[(r)$DEER_BASENAME]}
+    INDEX=${(k)FILES[(re)$DEER_BASENAME]}
 
     if (( INDEX+MOVEMENT <= 0 )); then
         DEER_BASENAME=$FILES[1]
