@@ -200,6 +200,10 @@ deer-launch()
                 break
                 ;;
             i)
+                deer-restore $DEER_DIRNAME:q$DEER_BASENAME:q
+                break
+                ;;
+            I)
                 deer-restore $DEER_DIRNAME$DEER_BASENAME
                 break
                 ;;

@@ -16,7 +16,8 @@ To launch `deer`, press `alt+k`. Now we have the following keys available:
 * `J`,`K` --  move by five files
 * `/` -- search
 * `q` -- quit and do nothing
-* `i` -- quit and paste the selected file's path
+* `i` -- quit and paste the selected file's path quoted
+* `I` -- quit and paste the selected file's path unquoted
 * `c` -- quit and cd into the current directory
 * `C` -- quit and cd into the selected directory
 
