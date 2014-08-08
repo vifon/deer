@@ -200,12 +200,15 @@ deer-launch()
                 break
                 ;;
             i)
-                deer-restore $BUFFER
+                deer-restore $DEER_DIRNAME$DEER_BASENAME
                 break
                 ;;
             c)
-                if [[ -d $BUFFER && -x $BUFFER ]]; then
-                    cd -- $BUFFER
+                deer-leave
+                ;&
+            C)
+                if [[ -d $DEER_DIRNAME$DEER_BASENAME && -x $DEER_DIRNAME$DEER_BASENAME ]]; then
+                    cd -- $DEER_DIRNAME$DEER_BASENAME
                     deer-restore
                     break
                 fi

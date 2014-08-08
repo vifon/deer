@@ -17,7 +17,8 @@ To launch `deer`, press `alt+k`. Now we have the following keys available:
 * `/` -- search
 * `q` -- quit and do nothing
 * `i` -- quit and paste the selected file's path
-* `c` -- quit and cd into the selected directory
+* `c` -- quit and cd into the current directory
+* `C` -- quit and cd into the selected directory
 
 You can supply the numeric argument (`alt-number`) to go up the
 appropriate number of directory levels on start.
