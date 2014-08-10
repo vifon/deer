@@ -87,8 +87,8 @@ deer-preview()
     local FILES PREVIEW PARENTFILES OUTPUT
     local SEPARATOR="------"
 
-    LBUFFER=$DEER_DIRNAME
-    RBUFFER=$DEER_BASENAME
+    LBUFFER=$DEER_DIRNAME$DEER_BASENAME
+    region_highlight=("0 $#DEER_DIRNAME fg=blue,bold")
 
 
     FILES=($DEER_DIRNAME/*(N-/:t)
