@@ -135,6 +135,7 @@ deer-preview()
 deer-restore()
 {
     PREDISPLAY=""
+    region_highlight=()
     LBUFFER=$OLD_LBUFFER
     RBUFFER=$OLD_RBUFFER
     if [ "$1" = "--append" ]; then
