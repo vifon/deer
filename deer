@@ -149,6 +149,7 @@ deer-restore()
 
 deer-launch()
 {
+    emulate -L zsh
     local DEER_DIRNAME DEER_BASENAME
     local REPLY OLD_LBUFFER OLD_RBUFFER
 
