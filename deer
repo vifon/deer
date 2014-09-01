@@ -64,7 +64,7 @@ deer-search()
     zle recursive-edit
     DEER_BASENAME=($DEER_DIRNAME/${~BUFFER}*(N-:t))
     DEER_BASENAME=${DEER_BASENAME[1]:-$OLD_BASENAME}
-    PREDISPLAY="deer: "
+    PREDISPLAY=$OLD_LBUFFER
 }
 
 deer--mark-file-list()
@@ -88,7 +88,9 @@ deer-preview()
     local SEPARATOR="------"
 
     LBUFFER=$DEER_DIRNAME$DEER_BASENAME
-    region_highlight=("0 $#DEER_DIRNAME fg=blue,bold")
+    RBUFFER=""
+    region_highlight=("P0 $#PREDISPLAY fg=black,bold"
+                      "0 $#DEER_DIRNAME fg=blue,bold")
 
 
     FILES=($DEER_DIRNAME/*(N-/:t)
@@ -156,7 +158,7 @@ deer-launch()
 
     OLD_LBUFFER=$LBUFFER
     OLD_RBUFFER=$RBUFFER
-    PREDISPLAY="deer: "
+    PREDISPLAY=$OLD_LBUFFER
 
     DEER_DIRNAME=$PWD
     if [ -n "$NUMERIC" ]; then
