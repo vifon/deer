@@ -62,6 +62,14 @@ You can download from
 [HERE](http://ftp.kernel.org/pub/linux/utils/util-linux/) and compile
 the newer verion and take from it the working `column(1)`.
 
+FAQ
+---
+
+**Can you add colors?**
+
+Unfortunetelly, no. It's a limitation of the underlying `zle` (zsh
+line editor) and I cannot do much about it.
+
 SEE ALSO
 --------
 
