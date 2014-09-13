@@ -61,7 +61,13 @@ deer-search()
     local OLD_BASENAME=$DEER_BASENAME
     BUFFER=""
     PREDISPLAY="deer/ "
+
+    local old_region_highlight
+    old_region_highlight=($region_highlight)
+    region_highlight=("P0 4 fg=green")
     zle recursive-edit
+    region_highlight=($old_region_highlight)
+
     DEER_BASENAME=($DEER_DIRNAME/${~BUFFER}*(N-:t))
     DEER_BASENAME=${DEER_BASENAME[1]:-$OLD_BASENAME}
     PREDISPLAY=$OLD_LBUFFER
