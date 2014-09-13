@@ -17,7 +17,16 @@ extension of my shell to navigate the directories but its startup time
 (even though still short) is sometimes too cumbersome. `deer`
 implements the very basic ranger-like file navigation + some basic
 operations on the commandline, like inserting the selected path (in
-various ways).
+various ways). Not using the whole terminal can be viewed as an
+another feature.
+
+Pros:  
+* launches much faster  
+* retains the terminal contents and only uses a small part of the terminal  
+
+Cons:  
+* offers only a small subset of `ranger's` features  
+* needs `zsh`  
 
 USAGE
 -----
@@ -69,6 +78,16 @@ FAQ
 
 Unfortunetelly, no. It's a limitation of the underlying `zle` (zsh
 line editor) and I cannot do much about it.
+
+RELATED PROJECTS
+----------------
+
+[lscd](https://github.com/hut/lscd) from the author of the original
+ranger is a minimal file browser written in a POSIX shell (with only a
+few necessary bashisms).
+
+[blscd](https://github.com/D630/blscd) is a Bash fork of `lscd` which
+is very similar to ranger.
 
 SEE ALSO
 --------
