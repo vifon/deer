@@ -234,6 +234,9 @@ deer-launch()
                     break
                 fi
                 ;;
+            r)
+                rifle $DEER_DIRNAME$DEER_BASENAME
+                ;;
         esac
     done
 }
