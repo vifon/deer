@@ -77,7 +77,7 @@ FAQ
 
 **Can you add colors?**
 
-Unfortunetelly, no. It's a limitation of the underlying `zle` (zsh
+Unfortunately, no. It's a limitation of the underlying `zle` (zsh
 line editor) and I cannot do much about it.
 
 RELATED PROJECTS
