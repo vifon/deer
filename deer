@@ -204,8 +204,7 @@ deer-launch()
                 deer-leave
                 deer-preview
                 ;;
-
-            /)
+            /|f)
                 deer-search
                 deer-preview
                 ;;
