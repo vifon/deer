@@ -135,7 +135,7 @@ deer-preview()
                         <(<<< $FILES)                        \
                         <(<<< $PREVIEW)                      \
                 | column -t -s/                              \
-                | awk -vwidth=$COLUMNS '{print substr($0,1,width-1)}')"
+                | awk -v width=$COLUMNS '{print substr($0,1,width-1)}')"
     zle -M -- $OUTPUT
     zle -R
 }
