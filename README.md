@@ -37,8 +37,8 @@ To launch `deer`, press `alt+k`. Now we have the following keys available:
 * `J`,`K` --  move by five files
 * `f`,`/` -- search
 * `q` -- quit and do nothing
-* `a` (`A`) -- quit and paste before the cursor the selected file's path quoted (unquoted)
-* `i` (`I`) -- quit and paste after the cursor the selected file's path quoted (unquoted)
+* `a` (`A`) -- quit and paste before the cursor the selected file's absolute (or relative) path
+* `i` (`I`) -- quit and paste after the cursor the selected file's absolute (or relative) path
 * `c` -- quit and cd into the current directory
 * `C` -- quit and cd into the selected directory
 * `r` -- open the file with `ranger's` `rifle`
