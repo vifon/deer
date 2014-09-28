@@ -218,7 +218,9 @@ deer-launch()
                 break
                 ;;
             A)
-                deer-restore --append "`realpath --no-symlinks --relative-to=. $DEER_DIRNAME$DEER_BASENAME`"
+                local TMP
+                TMP="`realpath --no-symlinks --relative-to=. $DEER_DIRNAME$DEER_BASENAME`"
+                deer-restore --append $TMP:q
                 break
                 ;;
             i)
@@ -226,7 +228,9 @@ deer-launch()
                 break
                 ;;
             I)
-                deer-restore "`realpath --no-symlinks --relative-to=. $DEER_DIRNAME$DEER_BASENAME`"
+                local TMP
+                TMP="`realpath --no-symlinks --relative-to=. $DEER_DIRNAME$DEER_BASENAME`"
+                deer-restore $TMP:q
                 break
                 ;;
             c)
