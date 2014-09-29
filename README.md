@@ -62,16 +62,6 @@ This is an ugly workaround the issues with the way the output is
 formatted (slash is used as a separator for `paste(1)` and
 `column(1)` as it cannot appear in the filename).
 
-**Garbled subdirectory listing**
-
-Before `util-linux 2.23` there was a bug in `column(1)` that is the
-cause of it. I cannot do much. If I recall correctly, Ubuntu and
-Debian might still be affected.
-
-You can download from
-[HERE](http://ftp.kernel.org/pub/linux/utils/util-linux/) and compile
-the newer verion and take from it the working `column(1)`.
-
 FAQ
 ---
 
