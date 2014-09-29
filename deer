@@ -134,7 +134,7 @@ deer-preview()
                             | awk '{print substr($0,1,16)}') \
                         <(<<< $FILES)                        \
                         <(<<< $PREVIEW)                      \
-                | sed 's/\// \/ /g'                          \
+                | sed 's,/, / ,g'                            \
                 | column -t -s/                              \
                 | awk -v width=$COLUMNS '{print substr($0,1,width-1)}')"
     zle -M -- $OUTPUT
