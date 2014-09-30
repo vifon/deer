@@ -250,6 +250,5 @@ deer-launch()
         esac
     done
 }
-zle -N deer-launch
 
-bindkey '\ek' deer-launch
+deer-launch

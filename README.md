@@ -49,9 +49,23 @@ appropriate number of directory levels on start.
 INSTALLATION
 ------------
 
-Just source the `deer` main file from your `zshrc`:
+Drop the `deer` main file in a directory from `$fpath[@]`, and make sure it gets
+autoloaded in your `zshrc`:
+
+    autoload -U deer
+
+Adding these lines will make the script available to the line editor, and bind
+it to a `ALT+k` respectively: 
+
+    zle -N deer
+    bindkey '\ek' deer
+
+Alternatively, you can source the file `deer`, and bind the initialization 
+function to a `ALT+k` as follows: 
 
     source /path/to/deer
+    zle -N deer-launch
+    bindkey '\ek' deer-launch
 
 KNOWN ISSUES
 ------------
