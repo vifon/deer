@@ -67,6 +67,13 @@ function to a `ALT+k` as follows:
     zle -N deer-launch
     bindkey '\ek' deer-launch
 
+By default, `deer` will use 22 lines of your terminal. This is configurable 
+with the `zstyle` mechanism. Drop a line like this in `zshrc` to adjust this
+setting: 
+
+    zstyle ':deer:' height 35
+
+
 KNOWN ISSUES
 ------------
 

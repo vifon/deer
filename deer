@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. #
 #########################################################################
 
-DEER_HEIGHT=22
+zstyle -s ":deer:" height DEER_HEIGHT || DEER_HEIGHT=22
 
 deer-move()
 {
