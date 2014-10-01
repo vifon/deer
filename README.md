@@ -55,21 +55,14 @@ autoloaded in your `zshrc`:
     autoload -U deer
 
 Adding these lines will make the script available to the line editor, and bind
-it to a `ALT+k` respectively: 
+it to a `ALT+k` respectively:
 
     zle -N deer
     bindkey '\ek' deer
 
-Alternatively, you can source the file `deer`, and bind the initialization 
-function to a `ALT+k` as follows: 
-
-    source /path/to/deer
-    zle -N deer-launch
-    bindkey '\ek' deer-launch
-
-By default, `deer` will use 22 lines of your terminal. This is configurable 
+By default, `deer` will use 22 lines of your terminal. This is configurable
 with the `zstyle` mechanism. Drop a line like this in `zshrc` to adjust this
-setting: 
+setting:
 
     zstyle ':deer:' height 35
 
