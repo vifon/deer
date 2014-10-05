@@ -251,4 +251,4 @@ deer-launch()
     done
 }
 
-deer-launch
+[[ -n $WIDGET ]] && deer-launch
