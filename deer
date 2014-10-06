@@ -157,6 +157,13 @@ deer-restore()
     zle -M ""
 }
 
+deer-get-relative()
+{
+    local TMP
+    TMP="`realpath --no-symlinks --relative-to=. $1`"
+    print -R $TMP:q
+}
+
 deer-launch()
 {
     emulate -L zsh
@@ -219,9 +226,7 @@ deer-launch()
                 break
                 ;;
             A)
-                local TMP
-                TMP="`realpath --no-symlinks --relative-to=. $DEER_DIRNAME$DEER_BASENAME`"
-                deer-restore --append $TMP:q
+                deer-restore --append "`deer-get-relative $DEER_DIRNAME$DEER_BASENAME`"
                 break
                 ;;
             i)
@@ -229,10 +234,13 @@ deer-launch()
                 break
                 ;;
             I)
-                local TMP
-                TMP="`realpath --no-symlinks --relative-to=. $DEER_DIRNAME$DEER_BASENAME`"
-                deer-restore $TMP:q
+                deer-restore "`deer-get-relative $DEER_DIRNAME$DEER_BASENAME`"
                 break
+                ;;
+            s)
+                OLD_LBUFFER+="`deer-get-relative $DEER_DIRNAME$DEER_BASENAME`"${OLD_LBUFFER[-1]:- }
+                PREDISPLAY=$OLD_LBUFFER
+                deer-preview
                 ;;
             c)
                 deer-leave
@@ -251,4 +259,4 @@ deer-launch()
     done
 }
 
-[[ -n $WIDGET ]] && deer-launch
+zle && deer-launch
