@@ -249,7 +249,7 @@ deer-launch()
                 deer-preview
                 ;;
             S)
-                deer-add --append "`deer-get-relative $DEER_BASENAME`"${OLD_LBUFFER[-1]:- }
+                deer-add --append $DEER_BASENAME:q${OLD_LBUFFER[-1]:- }
                 deer-preview
                 ;;
             c)
