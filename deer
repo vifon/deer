@@ -229,19 +229,19 @@ deer-launch()
                 break
                 ;;
             a)
-                deer-restore --append $DEER_DIRNAME:q$DEER_BASENAME:q
-                break
-                ;;
-            A)
                 deer-restore --append "`deer-get-relative`"
                 break
                 ;;
+            A)
+                deer-restore --append $DEER_DIRNAME:q$DEER_BASENAME:q
+                break
+                ;;
             i)
-                deer-restore --insert $DEER_DIRNAME:q$DEER_BASENAME:q
+                deer-restore --insert "`deer-get-relative`"
                 break
                 ;;
             I)
-                deer-restore --insert "`deer-get-relative`"
+                deer-restore --insert $DEER_DIRNAME:q$DEER_BASENAME:q
                 break
                 ;;
             s)
