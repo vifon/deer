@@ -22,6 +22,7 @@ another feature.
 
 Pros:  
 * launches much faster  
+* better shell integration  
 * retains the terminal contents and only uses a small part of the terminal  
 
 Cons:  
@@ -91,6 +92,12 @@ FAQ
 
 Unfortunately, no. It's a limitation of the underlying `zle` (zsh
 line editor) and I cannot do much about it.
+
+**Why are there so many strange features and their variations?**
+
+At first I add the new features taylored for myself. Later I plan to
+review these features and clean them up. If you need something else,
+please leave a feature request or add it yourself if you know how.
 
 RELATED PROJECTS
 ----------------
