@@ -167,7 +167,7 @@ deer-add()
 deer-get-relative()
 {
     local TMP
-    TMP=$DEER_DIRNAME$DEER_BASENAME
+    TMP=${1:-$DEER_DIRNAME$DEER_BASENAME}
     TMP="`realpath --no-symlinks --relative-to=. $TMP`"
     print -R $TMP:q
 }
@@ -246,6 +246,10 @@ deer-launch()
                 ;;
             s)
                 deer-add --append "`deer-get-relative`"${OLD_LBUFFER[-1]:- }
+                deer-preview
+                ;;
+            S)
+                deer-add --append "`deer-get-relative $DEER_BASENAME`"${OLD_LBUFFER[-1]:- }
                 deer-preview
                 ;;
             c)

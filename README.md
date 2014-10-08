@@ -44,6 +44,7 @@ To launch `deer`, press `alt+k`. Now we have the following keys available:
 * `C` -- quit and cd into the selected directory
 * `r` -- open the file with `ranger's` `rifle`
 * `s` -- like `A` but doesn't quit thus allows appending multiple files. Uses the last character in the buffer as a separator.
+* `S` -- like `s` but appends only the basename.
 
 You can supply the numeric argument (`alt-number`) to go up the
 appropriate number of directory levels on start.
