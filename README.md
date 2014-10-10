@@ -36,7 +36,8 @@ To launch `deer`, press `alt+k`. Now we have the following keys available:
 
 * `hjkl` --  vi-like movement
 * `J`,`K` --  move by five files
-* `f`,`/` -- search
+* `/` -- search
+* `f` -- filter files
 * `q` -- quit and do nothing
 * `a` (`A`) -- quit and paste before the cursor the selected file's relative (or absolute) path
 * `i` (`I`) -- quit and paste after the cursor the selected file's relative (or absolute) path
