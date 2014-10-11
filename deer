@@ -244,6 +244,7 @@ deer-launch()
     deer-preview
     while read -k; do
         case $REPLY in
+            # Movement
             k)
                 deer-move -1
                 deer-preview
@@ -260,26 +261,32 @@ deer-launch()
                 deer-move 5
                 deer-preview
                 ;;
+            # Enter the selected directory and reset the filter.
             l)
                 deer-enter --filter '*'
                 deer-preview
                 ;;
+            # Leave the directory and implicitly reset the filter.
             h|$'\014')          # \014 is Ctrl+L, from Helm for Emacs
                 deer-leave
                 deer-preview
                 ;;
+            # Search
             /)
                 deer-search
                 deer-preview
                 ;;
+            # Filter
             f)
                 deer-filter
                 deer-preview
                 ;;
+            # Quit
             q)
                 deer-restore
                 break
                 ;;
+            # Insert the path and quit.
             a)
                 deer-restore --append "`deer-get-relative`"
                 break
@@ -296,6 +303,7 @@ deer-launch()
                 deer-restore --insert $DEER_DIRNAME:q$DEER_BASENAME:q
                 break
                 ;;
+            # Insert the path and don't quit yet.
             s)
                 deer-add --append "`deer-get-relative`"${OLD_LBUFFER[-1]:- }
                 deer-preview
@@ -304,6 +312,7 @@ deer-launch()
                 deer-add --append $DEER_BASENAME:q${OLD_LBUFFER[-1]:- }
                 deer-preview
                 ;;
+            # Quit and change the shell's current directory to the selected one.
             c)
                 deer-leave
                 ;&
@@ -314,6 +323,7 @@ deer-launch()
                     break
                 fi
                 ;;
+            # See rifle(1) manpage (included with ranger(1)).
             r)
                 rifle $DEER_DIRNAME$DEER_BASENAME
                 ;;
