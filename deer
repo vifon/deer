@@ -25,7 +25,7 @@ deer-move()
     local FILES MOVEMENT INDEX
     MOVEMENT=$1
 
-    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-^/:t))
+    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
 
     INDEX=${(k)FILES[(re)$DEER_BASENAME]}
 
@@ -47,13 +47,13 @@ deer-enter()
 
     case $1 in
         --filter)
-            DEER_FILTER[$DEER_DIRNAME]=$2
+            [ $2 != '*' ] && DEER_FILTER[$DEER_DIRNAME]=$2
             shift 2
             ;;
     esac
 
     # get the first directory
-    DEER_BASENAME=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-^/:t))
+    DEER_BASENAME=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
     DEER_BASENAME=$DEER_BASENAME[1]
 }
 
@@ -73,11 +73,9 @@ deer-prompt()
     BUFFER=""
     PREDISPLAY="$1/ "
 
-    local old_region_highlight
-    old_region_highlight=($region_highlight)
+    local region_highlight
     region_highlight=("P0 $#1 fg=green")
     zle recursive-edit
-    region_highlight=($old_region_highlight)
 }
 
 # Read a pattern and select the first matching file.
@@ -86,7 +84,7 @@ deer-search()
     local OLD_BASENAME=$DEER_BASENAME
     deer-prompt "search"
 
-    DEER_BASENAME=($DEER_DIRNAME/${~BUFFER}${~DEER_FILTER[$DEER_DIRNAME]}(N-:t))
+    DEER_BASENAME=($DEER_DIRNAME/${~BUFFER}${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-:t))
     DEER_BASENAME=${DEER_BASENAME[1]:-$OLD_BASENAME}
 }
 
@@ -140,9 +138,9 @@ deer-preview()
                       "0 $[${#DEER_DIRNAME%/}+1] fg=blue,bold")
 
 
-    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-/:t)
+    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
            $SEPARATOR
-           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-^/:t))
+           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
     PARENTFILES=($DEER_DIRNAME:h/${~DEER_FILTER[$DEER_DIRNAME:h]:-'*'}(N-/:t))
 
     local IFS=$'\n'
@@ -165,9 +163,9 @@ deer-preview()
             PREVIEW="--- Binary file, preview unavailable ---"
         fi
     else
-        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME]:-'*'}(N-/:t)
+        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME]:-*}(N-/:t)
                  $SEPARATOR
-                 $DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME]:-'*'}(N-^/:t))
+                 $DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME]:-*}(N-^/:t))
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
