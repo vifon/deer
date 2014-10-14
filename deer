@@ -43,7 +43,7 @@ deer-enter()
 {
     [ -n "$DEER_BASENAME" -a -d "$DEER_DIRNAME/$DEER_BASENAME" ] || return
 
-    DEER_DIRNAME=$DEER_DIRNAME$DEER_BASENAME/
+    DEER_DIRNAME=${DEER_DIRNAME%/}/$DEER_BASENAME
 
     case $1 in
         --filter)
@@ -63,7 +63,6 @@ deer-leave()
     [ $DEER_DIRNAME = / ] && return
     DEER_BASENAME=$DEER_DIRNAME:t
     DEER_DIRNAME=$DEER_DIRNAME:h
-    [ $DEER_DIRNAME = / ] || DEER_DIRNAME+=/
 
     DEER_FILTER[$DEER_DIRNAME]=${DEER_FILTER[$DEER_DIRNAME]:-'*'}
 }
@@ -135,16 +134,16 @@ deer-preview()
     local SEPARATOR="------"
 
     PREDISPLAY=$OLD_LBUFFER
-    LBUFFER=$DEER_DIRNAME$DEER_BASENAME
+    LBUFFER=${DEER_DIRNAME%/}/$DEER_BASENAME
     RBUFFER=""
     region_highlight=("P0 $#PREDISPLAY fg=black,bold"
-                      "0 $#DEER_DIRNAME fg=blue,bold")
+                      "0 $[${#DEER_DIRNAME%/}+1] fg=blue,bold")
 
 
     FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-/:t)
            $SEPARATOR
            $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-^/:t))
-    PARENTFILES=($DEER_DIRNAME:h/${~DEER_FILTER[$DEER_DIRNAME:h/]:-'*'}(N-/:t))
+    PARENTFILES=($DEER_DIRNAME:h/${~DEER_FILTER[$DEER_DIRNAME:h]:-'*'}(N-/:t))
 
     local IFS=$'\n'
     FILES=($(deer-mark-file-list "$DEER_BASENAME" $FILES))
@@ -166,9 +165,9 @@ deer-preview()
             PREVIEW="--- Binary file, preview unavailable ---"
         fi
     else
-        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME$DEER_BASENAME/]:-'*'}(N-/:t)
+        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME]:-'*'}(N-/:t)
                  $SEPARATOR
-                 $DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME$DEER_BASENAME/]:-'*'}(N-^/:t))
+                 $DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME]:-'*'}(N-^/:t))
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
@@ -215,7 +214,7 @@ deer-add()
 deer-get-relative()
 {
     local TMP
-    TMP=${1:-$DEER_DIRNAME$DEER_BASENAME}
+    TMP=${1:-${DEER_DIRNAME%/}/$DEER_BASENAME}
     TMP="`realpath --no-symlinks --relative-to=. $TMP`"
     print -R $TMP:q
 }
@@ -264,7 +263,7 @@ deer-launch()
                 ;;
             # Enter the selected directory and reset the filter.
             l)
-                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME$DEER_BASENAME/]:-'*'}
+                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME]:-'*'}
                 deer-preview
                 ;;
             # Leave the directory and implicitly reset the filter.
@@ -293,7 +292,7 @@ deer-launch()
                 break
                 ;;
             A)
-                deer-restore --append $DEER_DIRNAME:q$DEER_BASENAME:q
+                deer-restore --append ${${DEER_DIRNAME%/}:q}/$DEER_BASENAME:q
                 break
                 ;;
             i)
@@ -301,7 +300,7 @@ deer-launch()
                 break
                 ;;
             I)
-                deer-restore --insert $DEER_DIRNAME:q$DEER_BASENAME:q
+                deer-restore --insert ${${DEER_DIRNAME%/}:q}/$DEER_BASENAME:q
                 break
                 ;;
             # Insert the path and don't quit yet.
@@ -318,15 +317,15 @@ deer-launch()
                 deer-leave
                 ;&
             C)
-                if [[ -d $DEER_DIRNAME$DEER_BASENAME && -x $DEER_DIRNAME$DEER_BASENAME ]]; then
-                    cd -- $DEER_DIRNAME$DEER_BASENAME
+                if [[ -d $DEER_DIRNAME/$DEER_BASENAME && -x $DEER_DIRNAME/$DEER_BASENAME ]]; then
+                    cd -- $DEER_DIRNAME/$DEER_BASENAME
                     deer-restore
                     break
                 fi
                 ;;
             # See rifle(1) manpage (included with ranger(1)).
             r)
-                rifle $DEER_DIRNAME$DEER_BASENAME
+                rifle $DEER_DIRNAME/$DEER_BASENAME
                 ;;
         esac
     done
