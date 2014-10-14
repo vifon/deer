@@ -25,7 +25,8 @@ deer-move()
     local FILES MOVEMENT INDEX
     MOVEMENT=$1
 
-    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
+    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
+           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
 
     INDEX=${(k)FILES[(re)$DEER_BASENAME[$DEER_DIRNAME]]}
 
@@ -41,7 +42,8 @@ deer-move()
 # Enter a selected directory and optionally apply a new file filter.
 deer-enter()
 {
-    [ -n "$DEER_BASENAME[$DEER_DIRNAME]" -a -d "$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]" ] || return
+    [ -n "$DEER_BASENAME[$DEER_DIRNAME]" -a \
+      -d "$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]" ] || return
 
     DEER_DIRNAME=${DEER_DIRNAME%/}/$DEER_BASENAME[$DEER_DIRNAME]
 
@@ -61,7 +63,8 @@ deer-enter()
     if [ -z $DEER_BASENAME[$DEER_DIRNAME] ]; then
         # get the first directory
         local TMP
-        TMP=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
+        TMP=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
+             $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
         DEER_BASENAME[$DEER_DIRNAME]=$TMP[1]
     fi
 }
@@ -171,9 +174,11 @@ deer-preview()
             PREVIEW="--- Binary file, preview unavailable ---"
         fi
     else
-        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-*}(N-/:t)
+        # I'm really sorry about what you see below.
+        # It basically means: PREVIEW=(directories separator files)
+        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}(N-/:t)
                  $SEPARATOR
-                 $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-*}(N-^/:t))
+                 $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}(N-^/:t))
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
@@ -323,7 +328,8 @@ deer-launch()
                 deer-leave
                 ;&
             C)
-                if [[ -d $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] && -x $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] ]]; then
+                if [[ -d $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] && \
+                      -x $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] ]]; then
                     cd -- $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]
                     deer-restore
                     break
