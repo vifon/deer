@@ -9,9 +9,6 @@ heavily inspired by [ranger](http://ranger.nongnu.org/).
 
 **WHY**
 
-`deer` isn't in any way better than `ranger`. If you seek features,
-you're better off using the original.
-
 I've created `deer` because I really like to use `ranger` as an
 extension of my shell to navigate the directories but its startup time
 (even though still short) is sometimes too cumbersome. `deer`
