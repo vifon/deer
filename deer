@@ -75,8 +75,6 @@ deer-leave()
     [ $DEER_DIRNAME = / ] && return
     DEER_BASENAME[$DEER_DIRNAME:h]=$DEER_DIRNAME:t
     DEER_DIRNAME=$DEER_DIRNAME:h
-
-    DEER_FILTER[$DEER_DIRNAME]=${DEER_FILTER[$DEER_DIRNAME]:-'*'}
 }
 
 # Display a given prompt, read a string and save it into $BUFFER.
