@@ -82,6 +82,7 @@ deer-prompt()
 {
     BUFFER=""
     PREDISPLAY="$1/ "
+    POSTDISPLAY=""
 
     local region_highlight
     region_highlight=("P0 $#1 fg=green")
@@ -143,8 +144,10 @@ deer-preview()
     PREDISPLAY=$OLD_LBUFFER
     LBUFFER=${DEER_DIRNAME%/}/$DEER_BASENAME[$DEER_DIRNAME]
     RBUFFER=""
-    region_highlight=("P0 $#PREDISPLAY fg=black,bold"
-                      "0 $[${#DEER_DIRNAME%/}+1] fg=blue,bold")
+    POSTDISPLAY=${DEER_FILTER[$DEER_DIRNAME]:+  filt:${${DEER_FILTER[$DEER_DIRNAME]%'*'}#'*'}}
+    region_highlight=("P0       $#PREDISPLAY               fg=black,bold"
+                      "0        $[${#DEER_DIRNAME%/}+1]    fg=blue,bold"
+                      "$#BUFFER $[$#BUFFER+$#POSTDISPLAY]  fg=yellow,bold")
 
 
     FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
@@ -197,6 +200,7 @@ deer-restore()
 {
     deer-add "$@"
     PREDISPLAY=""
+    POSTDISPLAY=""
     region_highlight=()
     LBUFFER=$OLD_LBUFFER
     RBUFFER=$OLD_RBUFFER

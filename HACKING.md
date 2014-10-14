@@ -47,6 +47,9 @@ later (in the `deer-restore` function).
 **PREDISPLAY**
 
 The built-in variable used to display the preview of the left side of
-the buffer (`OLD_LBUFFER`). I tried to do the same with `POSTDISPLAY`
-and the right side of the buffer but I was unable to apply the
-coloring to it (using `region_highlight`).
+the buffer (`OLD_LBUFFER`).
+
+**POSTDISPLAY**
+
+Used to display the status information. Currently only displays the
+applied filter if any.
