@@ -3,11 +3,19 @@ In this file I'll try to explain some design decisions and how `deer` works.
 VARIABLES
 =========
 
+PATHS
+-----
+
 **DEER_DIRNAME**
 
 The full path to the current directory, without the trailing slash.
 
 **DEER_BASENAME**
+
+An associative array mapping the dirnames to the files or directories
+focuesed there.
+
+**DEER_BASENAME[$DEER_DIRNAME]**
 
 The name of the currently selected file or directory.
 
@@ -19,6 +27,9 @@ slash in that corner case. It complicates the code in a few places but
 it's more maintainable then keeping the slash in `DEER_BASENAME` and
 concatenating dirname with basename without the additional slash in
 between (it was the case up until recently).
+
+OTHERS
+------
 
 **DEER_FILTER**
 
