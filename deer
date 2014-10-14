@@ -25,7 +25,7 @@ deer-move()
     local FILES MOVEMENT INDEX
     MOVEMENT=$1
 
-    FILES=($DEER_DIRNAME/${~DEER_FILTER}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER}(N-^/:t))
+    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-^/:t))
 
     INDEX=${(k)FILES[(re)$DEER_BASENAME]}
 
@@ -43,29 +43,29 @@ deer-enter()
 {
     [ -n "$DEER_BASENAME" -a -d "$DEER_DIRNAME/$DEER_BASENAME" ] || return
 
+    DEER_DIRNAME=$DEER_DIRNAME$DEER_BASENAME/
+
     case $1 in
         --filter)
-            DEER_FILTER=$2
+            DEER_FILTER[$DEER_DIRNAME]=$2
             shift 2
             ;;
     esac
 
-    DEER_DIRNAME=$DEER_DIRNAME$DEER_BASENAME/
-
     # get the first directory
-    DEER_BASENAME=($DEER_DIRNAME/${~DEER_FILTER}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER}(N-^/:t))
+    DEER_BASENAME=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-/:t) $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-^/:t))
     DEER_BASENAME=$DEER_BASENAME[1]
 }
 
 # Leave the directory and reset the file filter.
 deer-leave()
 {
-    DEER_FILTER='*'
-
     [ $DEER_DIRNAME = / ] && return
     DEER_BASENAME=$DEER_DIRNAME:t
     DEER_DIRNAME=$DEER_DIRNAME:h
     [ $DEER_DIRNAME = / ] || DEER_DIRNAME+=/
+
+    DEER_FILTER[$DEER_DIRNAME]=${DEER_FILTER[$DEER_DIRNAME]:-'*'}
 }
 
 # Display a given prompt, read a string and save it into $BUFFER.
@@ -87,7 +87,7 @@ deer-search()
     local OLD_BASENAME=$DEER_BASENAME
     deer-prompt "search"
 
-    DEER_BASENAME=($DEER_DIRNAME/${~BUFFER}${~DEER_FILTER}(N-:t))
+    DEER_BASENAME=($DEER_DIRNAME/${~BUFFER}${~DEER_FILTER[$DEER_DIRNAME]}(N-:t))
     DEER_BASENAME=${DEER_BASENAME[1]:-$OLD_BASENAME}
 }
 
@@ -141,10 +141,10 @@ deer-preview()
                       "0 $#DEER_DIRNAME fg=blue,bold")
 
 
-    FILES=($DEER_DIRNAME/${~DEER_FILTER}(N-/:t)
+    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-/:t)
            $SEPARATOR
-           $DEER_DIRNAME/${~DEER_FILTER}(N-^/:t))
-    PARENTFILES=($DEER_DIRNAME:h/*(N-/:t))
+           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]}(N-^/:t))
+    PARENTFILES=($DEER_DIRNAME:h/${~DEER_FILTER[$DEER_DIRNAME:h/]:-'*'}(N-/:t))
 
     local IFS=$'\n'
     FILES=($(deer-mark-file-list "$DEER_BASENAME" $FILES))
@@ -166,9 +166,9 @@ deer-preview()
             PREVIEW="--- Binary file, preview unavailable ---"
         fi
     else
-        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME/*(N-/:t)
+        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME$DEER_BASENAME/]:-'*'}(N-/:t)
                  $SEPARATOR
-                 $DEER_DIRNAME/$DEER_BASENAME/*(N-^/:t))
+                 $DEER_DIRNAME/$DEER_BASENAME/${~DEER_FILTER[$DEER_DIRNAME$DEER_BASENAME/]:-'*'}(N-^/:t))
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
@@ -224,8 +224,9 @@ deer-get-relative()
 deer-launch()
 {
     emulate -L zsh
-    local DEER_DIRNAME DEER_BASENAME DEER_FILTER
+    local DEER_DIRNAME DEER_BASENAME
     local REPLY OLD_LBUFFER OLD_RBUFFER
+    local -A DEER_FILTER
 
     OLD_LBUFFER=$LBUFFER
     OLD_RBUFFER=$RBUFFER
@@ -238,7 +239,7 @@ deer-launch()
     else
         # Don't change cwd but initialize the variables.
         deer-leave
-        deer-enter --filter '*'
+        deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME]:-'*'}
     fi
 
     deer-preview
@@ -263,7 +264,7 @@ deer-launch()
                 ;;
             # Enter the selected directory and reset the filter.
             l)
-                deer-enter --filter '*'
+                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME$DEER_BASENAME/]:-'*'}
                 deer-preview
                 ;;
             # Leave the directory and implicitly reset the filter.
