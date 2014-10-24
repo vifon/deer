@@ -47,6 +47,8 @@ To launch `deer`, press `alt+k`. Now we have the following keys available:
 You can supply the numeric argument (`alt-number`) to go up the
 appropriate number of directory levels on start.
 
+If you activate `deer` with the cursor on a path, it will start in there.
+
 INSTALLATION
 ------------
 
@@ -83,6 +85,13 @@ KNOWN ISSUES
 This is an ugly workaround the issues with the way the output is
 formatted (slash is used as a separator for `paste(1)` and
 `column(1)` as it cannot appear in the filename).
+
+**The ../ directory is not correctly shown when completing the
+  previously typed path**
+
+The shown path is created by deleting the preexisting prefix from the
+absolute path. It greatly simplifies the code and makes it easier to
+maintain (it's already quite messy in some places).
 
 FAQ
 ---

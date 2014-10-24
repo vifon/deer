@@ -138,16 +138,18 @@ deer-mark-file-list()
 # Draw the file lists in the form of Miller columns.
 deer-preview()
 {
-    local FILES PREVIEW PARENTFILES OUTPUT
+    local FILES PREVIEW PARENTFILES OUTPUT REL_DIRNAME
     local SEPARATOR="------"
 
     PREDISPLAY=$OLD_LBUFFER
-    LBUFFER=${DEER_DIRNAME%/}/$DEER_BASENAME[$DEER_DIRNAME]
+    REL_DIRNAME=${${DEER_DIRNAME%/}#$DEER_STARTDIR}/
+    [ -n "$DEER_STARTDIR" ] && REL_DIRNAME=${REL_DIRNAME#/}
+    LBUFFER=$REL_DIRNAME$DEER_BASENAME[$DEER_DIRNAME]
     RBUFFER=""
     POSTDISPLAY=${DEER_FILTER[$DEER_DIRNAME]:+  filt:${${DEER_FILTER[$DEER_DIRNAME]%'*'}#'*'}}
-    region_highlight=("P0       $#PREDISPLAY               fg=black,bold"
-                      "0        $[${#DEER_DIRNAME%/}+1]    fg=blue,bold"
-                      "$#BUFFER $[$#BUFFER+$#POSTDISPLAY]  fg=yellow,bold")
+    region_highlight=("P0       $#PREDISPLAY              fg=black,bold"
+                      "0        $#REL_DIRNAME             fg=blue,bold"
+                      "$#BUFFER $[$#BUFFER+$#POSTDISPLAY] fg=yellow,bold")
 
 
     FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
@@ -228,22 +230,45 @@ deer-get-relative()
 {
     local TMP
     TMP=${1:-${DEER_DIRNAME%/}/$DEER_BASENAME[$DEER_DIRNAME]}
-    TMP="`realpath --no-symlinks --relative-to=. $TMP`"
+    TMP="`realpath --no-symlinks --relative-to=${DEER_STARTDIR:-.} $TMP`"
     print -R $TMP:q
+}
+
+# Tries to guess a directory to start in from the current argument.
+deer-set-initial-directory()
+{
+    autoload -U split-shell-arguments modify-current-argument
+    local REPLY REPLY2 reply
+    local DIRECTORY
+
+    ((--CURSOR))
+    split-shell-arguments
+    ((++CURSOR))
+
+    # Find the longest existing directory path in the current argument.
+    DEER_STARTDIR=${${${reply[$REPLY]%%[[:space:]]#}:a}%/}
+    while [ -n "$DEER_STARTDIR" -a \
+            ! -d "$DEER_STARTDIR" ]; do
+        DEER_STARTDIR=${DEER_STARTDIR%/*}
+    done
+
+    DEER_DIRNAME=${DEER_STARTDIR:-$PWD}
 }
 
 # The main entry function.
 deer-launch()
 {
     emulate -L zsh
-    local DEER_DIRNAME
+    setopt extended_glob
+    local DEER_DIRNAME DEER_STARTDIR
     local -A DEER_FILTER DEER_BASENAME
     local REPLY OLD_LBUFFER OLD_RBUFFER
 
     OLD_LBUFFER=$LBUFFER
     OLD_RBUFFER=$RBUFFER
 
-    DEER_DIRNAME=$PWD
+    deer-set-initial-directory
+
     if [ -n "$NUMERIC" ]; then
         for i in {1..$NUMERIC}; do
             deer-leave
