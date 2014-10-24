@@ -19,6 +19,34 @@
 
 zstyle -s ":deer:" height DEER_HEIGHT || DEER_HEIGHT=22
 
+
+typeset -Ag DEER_KEYS
+function ()
+{
+    while [ -n "$2" ]; do
+        DEER_KEYS[$1]=${DEER_KEYS[$1]:-$2}
+        shift 2
+    done
+} down      j                                   \
+  page_down J                                   \
+  up        k                                   \
+  page_up   K                                   \
+  enter l                                       \
+  leave h                                       \
+  search /                                      \
+  filter f                                      \
+  quit q                                        \
+  append_path     a                             \
+  append_abs_path A                             \
+  insert_path     i                             \
+  insert_abs_path I                             \
+  multi_insert s                                \
+  multi_insert_basename S                       \
+  chdir c                                       \
+  chdir_selected C                              \
+  rifle r                                       \
+
+
 # Select the Nth next file. Pass a negative argument for the previous file.
 deer-move()
 {
@@ -283,80 +311,80 @@ deer-launch()
     while read -k; do
         case $REPLY in
             # Movement
-            k)
+            $DEER_KEYS[up])
                 deer-move -1
                 deer-preview
                 ;;
-            K)
+            $DEER_KEYS[page_up])
                 deer-move -5
                 deer-preview
                 ;;
-            j)
+            $DEER_KEYS[down])
                 deer-move 1
                 deer-preview
                 ;;
-            J)
+            $DEER_KEYS[page_down])
                 deer-move 5
                 deer-preview
                 ;;
             # Enter the selected directory and reset the filter.
-            l)
+            $DEER_KEYS[enter])
                 deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}
                 deer-preview
                 ;;
             # Leave the directory and implicitly reset the filter.
-            h|$'\014')          # \014 is Ctrl+L, from Helm for Emacs
+            $DEER_KEYS[leave])
                 deer-leave
                 deer-preview
                 ;;
             # Search
-            /)
+            $DEER_KEYS[search])
                 deer-search
                 deer-preview
                 ;;
             # Filter
-            f)
+            $DEER_KEYS[filter])
                 deer-filter
                 deer-preview
                 ;;
             # Quit
-            q)
+            $DEER_KEYS[quit])
                 deer-restore
                 break
                 ;;
             # Insert the path and quit.
-            a)
+            $DEER_KEYS[append_path])
                 deer-restore --append "`deer-get-relative`"
                 break
                 ;;
-            A)
+            $DEER_KEYS[append_abs_path])
                 deer-restore --append ${${DEER_DIRNAME%/}:q}/${DEER_BASENAME[$DEER_DIRNAME]:q}
                 break
                 ;;
-            i)
+            $DEER_KEYS[insert_path])
                 deer-restore --insert "`deer-get-relative`"
                 break
                 ;;
-            I)
+            $DEER_KEYS[insert_abs_path])
                 deer-restore --insert ${${DEER_DIRNAME%/}:q}/${DEER_BASENAME[$DEER_DIRNAME]:q}
                 break
                 ;;
             # Insert the path and don't quit yet.
-            s)
+            $DEER_KEYS[multi_insert])
                 # replacement used to use ',' instead of '{' as a separator in {foo,bar,...} lists
                 deer-add --append "`deer-get-relative`"${${OLD_LBUFFER[-1]/\{/,}:- }
                 deer-preview
                 ;;
-            S)
+            $DEER_KEYS[multi_insert_basename])
                 # as above
                 deer-add --append ${DEER_BASENAME[$DEER_DIRNAME]:q}${${OLD_LBUFFER[-1]/\{/,}:- }
                 deer-preview
                 ;;
             # Quit and change the shell's current directory to the selected one.
-            c)
+            $DEER_KEYS[chdir])
                 deer-leave
                 ;&
-            C)
+            $DEER_KEYS[chdir_selected])
                 if [[ -d $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] && \
                       -x $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] ]]; then
                     cd -- $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]
@@ -365,7 +393,7 @@ deer-launch()
                 fi
                 ;;
             # See rifle(1) manpage (included with ranger(1)).
-            r)
+            $DEER_KEYS[rifle])
                 rifle $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]
                 ;;
         esac

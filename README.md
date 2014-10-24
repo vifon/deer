@@ -29,25 +29,50 @@ Cons:
 USAGE
 -----
 
-To launch `deer`, press `alt+k`. Now we have the following keys available:
-
-* `hjkl` --  vi-like movement
-* `J`,`K` --  move by five files
-* `/` -- search
-* `f` -- filter files
-* `q` -- quit and do nothing
-* `a` (`A`) -- quit and paste before the cursor the selected file's relative (or absolute) path
-* `i` (`I`) -- quit and paste after the cursor the selected file's relative (or absolute) path
-* `c` -- quit and cd into the current directory
-* `C` -- quit and cd into the selected directory
-* `r` -- open the file with `ranger's` `rifle`
-* `s` -- like `a` but doesn't quit thus allows appending multiple files. Uses the last character in the buffer as a separator.
-* `S` -- like `s` but appends only the basename.
+To launch `deer`, press `alt+k`.
 
 You can supply the numeric argument (`alt-number`) to go up the
 appropriate number of directory levels on start.
 
 If you activate `deer` with the cursor on a path, it will start in there.
+
+**KEYS AND FUNCTIONS**
+
+These functions can be bound to some custom key (the default is in the
+parentheses):
+
+* `down` (j) -- one item down
+* `page_down` (J) -- five items down
+* `up` (k) -- one item up
+* `page_up` (K) -- five items up
+* `enter` (l) -- enter into the selected directory
+* `leave` (h) -- leave the current directory (one directory up)
+* `search` (/) -- select the first file matching the given pattern
+* `filter` (f) -- shows only files matching the given pattern
+* `quit` (q) -- exit `deer`
+* `append_path` (a) -- insert the current path and leave the cursor on
+  its right
+* `append_abs_path` (A) -- absolute path version
+* `insert_path` (i) -- insert the current path and leave the cursor on
+  its left
+* `insert_abs_path` (i) -- absolute path version
+* `multi_insert` (s) -- insert the current path, add a smart separator
+  (using the last character before the cursor, unless it's an opening
+  brace) and don't quit yet
+* `multi_insert_basename` (S) -- as above but insert only the basename
+* `chdir` (c) -- cd into the current directory and quit
+* `chdir_selected` (C) -- cd into the selected directory and quit
+* `rifle` (r) -- run `rifle(1)` on the selected file
+
+To bind the function to a different key, add something like this to
+your `zshrc`:
+
+    typeset -Ag DEER_KEYS
+    DEER_KEYS[function]=key
+
+The `DEER_KEYS` variable is an associative array holding the keys
+associated with functions. One function may only be bound to one key
+(the previous one is overwritten).
 
 INSTALLATION
 ------------
@@ -106,6 +131,11 @@ line editor) and I cannot do much about it.
 At first I add the new features taylored for myself. Later I plan to
 review these features and clean them up. If you need something else,
 please leave a feature request or add it yourself if you know how.
+
+**The key binding system is ugly**
+
+Yes. It is. I plan to replace it with a proper keymap but for now it
+should suffice.
 
 RELATED PROJECTS
 ----------------
