@@ -318,11 +318,13 @@ deer-launch()
                 ;;
             # Insert the path and don't quit yet.
             s)
-                deer-add --append "`deer-get-relative`"${OLD_LBUFFER[-1]:- }
+                # replacement used to use ',' instead of '{' as a separator in {foo,bar,...} lists
+                deer-add --append "`deer-get-relative`"${${OLD_LBUFFER[-1]/\{/,}:- }
                 deer-preview
                 ;;
             S)
-                deer-add --append ${DEER_BASENAME[$DEER_DIRNAME]:q}${OLD_LBUFFER[-1]:- }
+                # as above
+                deer-add --append ${DEER_BASENAME[$DEER_DIRNAME]:q}${${OLD_LBUFFER[-1]/\{/,}:- }
                 deer-preview
                 ;;
             # Quit and change the shell's current directory to the selected one.
