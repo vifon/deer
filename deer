@@ -35,6 +35,7 @@ function ()
   leave h                                       \
   search /                                      \
   filter f                                      \
+  toggle_hidden t                               \
   quit q                                        \
   append_path     a                             \
   append_abs_path A                             \
@@ -53,8 +54,8 @@ deer-move()
     local FILES MOVEMENT INDEX
     MOVEMENT=$1
 
-    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
-           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
+    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(${GLOB}-/:t)
+           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(${GLOB}-^/:t))
 
     INDEX=${(k)FILES[(re)$DEER_BASENAME[$DEER_DIRNAME]]}
 
@@ -91,8 +92,8 @@ deer-enter()
     if [ -z $DEER_BASENAME[$DEER_DIRNAME] ]; then
         # get the first directory
         local TMP
-        TMP=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
-             $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
+        TMP=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(${GLOB}-/:t)
+             $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(${GLOB}-^/:t))
         DEER_BASENAME[$DEER_DIRNAME]=$TMP[1]
     fi
 }
@@ -123,7 +124,7 @@ deer-search()
     deer-prompt "search"
 
     local TMP
-    TMP=($DEER_DIRNAME/${~BUFFER}${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-:t))
+    TMP=($DEER_DIRNAME/${~BUFFER}${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(${GLOB}-:t))
     [ -n "$TMP[1]" ] && DEER_BASENAME[$DEER_DIRNAME]=$TMP[1]
 }
 
@@ -147,14 +148,26 @@ deer-filter()
     fi
 }
 
+deer-toggle-hidden()
+{
+    [ $GLOB = "N" ] && GLOB="ND" || GLOB="N"
+}
+
 # Draw an arrow pointing to the selected file.
 deer-mark-file-list()
 {
     local MARKED=$1
     shift
 
+    local FILTER_CMD
+    if [ "$@[(r)$MARKED]" = "$MARKED" ]; then
+        FILTER_CMD="grep -Fx -B5 -A$DEER_HEIGHT -- \"$MARKED\""
+    else
+        FILTER_CMD="head -n $DEER_HEIGHT"
+    fi
+
     print -l -- "$@" \
-        | grep -Fx -B5 -A$DEER_HEIGHT -- "$MARKED" \
+        | eval "$FILTER_CMD" \
         | perl -pe 'BEGIN{$name = shift}
                     if ($name."\n" eq $_) {
                         $_="-> $_"
@@ -179,11 +192,10 @@ deer-preview()
                       "0        $#REL_DIRNAME             fg=blue,bold"
                       "$#BUFFER $[$#BUFFER+$#POSTDISPLAY] fg=yellow,bold")
 
-
-    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-/:t)
+    FILES=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(${GLOB}-/:t)
            $SEPARATOR
-           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N-^/:t))
-    PARENTFILES=($DEER_DIRNAME:h/${~DEER_FILTER[$DEER_DIRNAME:h]:-'*'}(N-/:t))
+           $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(${GLOB}-^/:t))
+    PARENTFILES=($DEER_DIRNAME:h/${~DEER_FILTER[$DEER_DIRNAME:h]:-'*'}(${GLOB}-/:t))
 
     local IFS=$'\n'
     FILES=($(deer-mark-file-list "$DEER_BASENAME[$DEER_DIRNAME]" $FILES))
@@ -207,9 +219,9 @@ deer-preview()
     else
         # I'm really sorry about what you see below.
         # It basically means: PREVIEW=(directories separator files)
-        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}(N-/:t)
+        PREVIEW=($DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}(${GLOB}-/:t)
                  $SEPARATOR
-                 $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}(N-^/:t))
+                 $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]/${~DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}(${GLOB}-^/:t))
         PREVIEW=${(F)PREVIEW[1,$DEER_HEIGHT]}
     fi
 
@@ -291,10 +303,12 @@ deer-launch()
     local DEER_DIRNAME DEER_STARTDIR
     local -A DEER_FILTER DEER_BASENAME
     local REPLY OLD_LBUFFER OLD_RBUFFER
+    local GLOB
 
     OLD_LBUFFER=$LBUFFER
     OLD_RBUFFER=$RBUFFER
 
+    GLOB="N"
     deer-set-initial-directory
 
     if [ -n "$NUMERIC" ]; then
@@ -345,6 +359,11 @@ deer-launch()
             # Filter
             $DEER_KEYS[filter])
                 deer-filter
+                deer-preview
+                ;;
+            # Toggle hidden files
+            $DEER_KEYS[toggle_hidden])
+                deer-toggle-hidden
                 deer-preview
                 ;;
             # Quit

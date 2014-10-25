@@ -17,14 +17,14 @@ operations on the commandline, like inserting the selected path (in
 various ways). Not using the whole terminal can be viewed as an
 another feature.
 
-Pros:  
-* launches much faster  
-* better shell integration  
-* retains the terminal contents and only uses a small part of the terminal  
+Pros:
+* launches much faster
+* better shell integration
+* retains the terminal contents and only uses a small part of the terminal
 
-Cons:  
-* offers only a small subset of `ranger's` features  
-* needs `zsh`  
+Cons:
+* offers only a small subset of `ranger's` features
+* needs `zsh`
 
 USAGE
 -----
@@ -49,6 +49,7 @@ parentheses):
 * `leave` (h) -- leave the current directory (one directory up)
 * `search` (/) -- select the first file matching the given pattern
 * `filter` (f) -- shows only files matching the given pattern
+* `toggle-hidden` (t) -- toggles visibility of hidden files
 * `quit` (q) -- exit `deer`
 * `append_path` (a) -- insert the current path and leave the cursor on
   its right
