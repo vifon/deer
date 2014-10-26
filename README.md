@@ -49,6 +49,7 @@ parentheses):
 * `leave` (h) -- leave the current directory (one directory up)
 * `search` (/) -- select the first file matching the given pattern
 * `filter` (f) -- shows only files matching the given pattern
+* `toggle_hidden` (H) -- show/hide the hidden files
 * `quit` (q) -- exit `deer`
 * `append_path` (a) -- insert the current path and leave the cursor on
   its right
