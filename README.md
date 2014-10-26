@@ -106,6 +106,10 @@ setting:
 KNOWN ISSUES
 ------------
 
+_These are the issues I'm aware of, which I've decided not to fix for
+now, along with a reason. If you think any of them is a dealbreaker,
+open a ticket on Github and I'll see what I can do._
+
 **Slashes are replaced with backslashes in file previews**
 
 This is an ugly workaround the issues with the way the output is
@@ -118,6 +122,19 @@ formatted (slash is used as a separator for `paste(1)` and
 The shown path is created by deleting the preexisting prefix from the
 absolute path. It greatly simplifies the code and makes it easier to
 maintain (it's already quite messy in some places).
+
+**Functions cannot be bound to the arrow keys**
+
+Arrow keys are represented by the multi-character sequences. Currently
+the main loop reads only a single character. See the related entry in
+the **FAQ** section.
+
+**Buggy behavior in the root directory (/)**
+
+The root directory handling is quite tricky as it's the only directory
+where going up and down does not keep you in the same directory. I've
+concluded that that directory itself is used very rarely and most of
+the bugs are not fatal.
 
 FAQ
 ---
