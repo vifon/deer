@@ -78,23 +78,34 @@ associated with functions. One function may only be bound to one key
 INSTALLATION
 ------------
 
-Drop the `deer` main file in a directory from `$fpath[@]`, and make sure it gets
+**First method**
+
+I assume you have `~/.fpath` added to your `$FPATH` variable here. If
+you don't, either add it or use the second installation method. If you
+use some other directory, modify the commands below accordingly.
+
+Copy the `deer` main file to `~/.fpath` and make sure it gets
 autoloaded in your `zshrc`:
 
     autoload -U deer
 
 Adding these lines will make the script available to the line editor, and bind
-it to a `ALT+k` respectively:
+it to `alt+k` respectively:
 
     zle -N deer
     bindkey '\ek' deer
 
-Alternatively, you can source the file `deer`, and bind the initialization
-function to a `ALT+k` as follows:
+**Second method**
+
+Alternatively, you can directly source the file `deer`, and bind the
+initialization function to `alt+k` as follows:
 
     source /path/to/deer
     zle -N deer-launch
     bindkey '\ek' deer-launch
+
+CONFIGURATION
+-------------
 
 By default, `deer` will use 22 lines of your terminal. This is configurable
 with the `zstyle` mechanism. Drop a line like this in `zshrc` to adjust this
@@ -102,6 +113,15 @@ setting:
 
     zstyle ':deer:' height 35
 
+To customize the keys used by `deer`, you may use the following code:
+
+    typeset -Ag DEER_KEYS   # prepare the associative table
+    DEER_KEYS[action_name]=key
+
+Users of the Colemak keyboard layout may use the included
+`colemak_keys.sh` file to adjust the default keys to Colemak:
+
+    source colemak_keys.sh
 
 KNOWN ISSUES
 ------------
