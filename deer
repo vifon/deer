@@ -259,7 +259,10 @@ deer-get-relative()
 {
     local TMP
     TMP=${1:-${DEER_DIRNAME%/}/$DEER_BASENAME[$DEER_DIRNAME]}
-    TMP="`realpath --no-symlinks --relative-to=${DEER_STARTDIR:-.} $TMP`"
+    TMP="`python2 -c '
+import sys, os
+print os.path.relpath(sys.argv[1], sys.argv[2])
+' $TMP ${DEER_STARTDIR:-$PWD}`"
     print -R $TMP:q
 }
 
