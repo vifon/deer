@@ -41,8 +41,7 @@ function ()
   append_abs_path A                             \
   insert_path     i                             \
   insert_abs_path I                             \
-  multi_insert s                                \
-  multi_insert_basename S                       \
+  multi_insert_dwim s                           \
   chdir c                                       \
   chdir_selected C                              \
   rifle r                                       \
@@ -388,14 +387,12 @@ deer-launch()
                 break
                 ;;
             # Insert the path and don't quit yet.
-            $DEER_KEYS[multi_insert])
-                # replacement used to use ',' instead of '{' as a separator in {foo,bar,...} lists
+            $DEER_KEYS[multi_insert_dwim])
+                if [ "$OLD_LBUFFER[-1]" = "/" ]; then
+                    OLD_LBUFFER+="{"
+                fi
+                # replacement used to insert ',' instead of '{' as a separator in {foo,bar,...} lists
                 deer-add --append "`deer-get-relative`"${${OLD_LBUFFER[-1]/\{/,}:- }
-                deer-preview
-                ;;
-            $DEER_KEYS[multi_insert_basename])
-                # as above
-                deer-add --append ${DEER_BASENAME[$DEER_DIRNAME]:q}${${OLD_LBUFFER[-1]/\{/,}:- }
                 deer-preview
                 ;;
             # Quit and change the shell's current directory to the selected one.

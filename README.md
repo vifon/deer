@@ -57,10 +57,9 @@ parentheses):
 * `insert_path` (i) -- insert the current path and leave the cursor on
   its left
 * `insert_abs_path` (i) -- absolute path version
-* `multi_insert` (s) -- insert the current path, add a smart separator
+* `multi_insert_dwim` (s) -- insert the current path, add a smart separator
   (using the last character before the cursor, unless it's an opening
   brace) and don't quit yet
-* `multi_insert_basename` (S) -- as above but insert only the basename
 * `chdir` (c) -- cd into the current directory and quit
 * `chdir_selected` (C) -- cd into the selected directory and quit
 * `rifle` (r) -- run `rifle(1)` on the selected file
