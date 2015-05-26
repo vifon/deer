@@ -1,3 +1,5 @@
+# WARNING: MAY BE OUTDATED, SORRY #
+
 In this file I'll try to explain some design decisions and how `deer` works.
 
 VARIABLES
@@ -20,11 +22,11 @@ focuesed there.
 The name of the currently selected file or directory.
 
 Due to the special case of the root directory (`/`), simply using
-`$DEER_DIRNAME/$DEER_BASENAME` to get the full path to the selected
+`$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]` to get the full path to the selected
 directory is not sufficient as it would result in a double slash.
-Currently I use `${DEER_DIRNAME%/}/$DEER_BASENAME` to eliminate one
+Currently I use `${DEER_DIRNAME%/}/$DEER_BASENAME[$DEER_DIRNAME]` to eliminate one
 slash in that corner case. It complicates the code in a few places but
-it's more maintainable then keeping the slash in `DEER_BASENAME` and
+it's more maintainable than keeping the slash in `DEER_BASENAME` and
 concatenating dirname with basename without the additional slash in
 between (it was the case up until recently).
 
@@ -42,7 +44,8 @@ The prefered notation is quite ugly but it works:
 **OLD_LBUFFER and OLD_RBUFFER**
 
 The line buffer stored to restore the `LBUFFER` and `RBUFFER` contents
-later (in the `deer-restore` function).
+later (in the `deer-restore` function) after adding the selected files
+to them.
 
 **PREDISPLAY**
 
