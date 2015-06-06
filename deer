@@ -277,7 +277,7 @@ deer-set-initial-directory()
     ((++CURSOR))
 
     # Find the longest existing directory path in the current argument.
-    DEER_STARTDIR=${${${reply[$REPLY]%%[[:space:]]#}:a}%/}
+    DEER_STARTDIR=${(Q)${${reply[$REPLY]%%[[:space:]]#}:a}%/}
     while [ -n "$DEER_STARTDIR" -a \
             ! -d "$DEER_STARTDIR" ]; do
         DEER_STARTDIR=${DEER_STARTDIR%/*}
