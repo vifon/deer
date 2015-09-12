@@ -69,33 +69,31 @@ deer-move()
     fi
 }
 
-# Enter a selected directory and optionally apply a new file filter.
+# Select the first visible directory (or file if there are no
+# directories) in the current directory. Useful when changing the file
+# filter.
+deer-refocus()
+{
+    local TMP
+    TMP=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N$DEER_GLOBFLAGS-/:t)
+         $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N$DEER_GLOBFLAGS-^/:t))
+    DEER_BASENAME[$DEER_DIRNAME]=$TMP[1]
+
+    [ -n "$DEER_BASENAME[$DEER_DIRNAME]" ] # Return if there were any files at all.
+}
+
+# Enter the selected directory
 deer-enter()
 {
+    # Abort if there is no file focused at all or if it is not a
+    # directory.
     [ -n "$DEER_BASENAME[$DEER_DIRNAME]" -a \
       -d "$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]" ] || return
 
     DEER_DIRNAME=${DEER_DIRNAME%/}/$DEER_BASENAME[$DEER_DIRNAME]
 
-    case $1 in
-        --filter)
-            if [ $2 != '*' ]; then
-                DEER_FILTER[$DEER_DIRNAME]=$2
-                # force the a new file selection (a few lines below)
-                DEER_BASENAME[$DEER_DIRNAME]=
-            else
-                unset "DEER_FILTER[$DEER_DIRNAME]"
-            fi
-            shift 2
-            ;;
-    esac
-
     if [ -z $DEER_BASENAME[$DEER_DIRNAME] ]; then
-        # get the first directory
-        local TMP
-        TMP=($DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N$DEER_GLOBFLAGS-/:t)
-             $DEER_DIRNAME/${~DEER_FILTER[$DEER_DIRNAME]:-'*'}(N$DEER_GLOBFLAGS-^/:t))
-        DEER_BASENAME[$DEER_DIRNAME]=$TMP[1]
+        deer-refocus
     fi
 }
 
@@ -141,12 +139,13 @@ deer-filter()
         TMP_FILTER=*
     fi
 
-    deer-leave
-    deer-enter --filter $TMP_FILTER
-    if [ -z $DEER_BASENAME[$DEER_DIRNAME] ]; then
-        deer-leave
-        deer-enter --filter '*'
-    fi
+    deer-apply-filter $TMP_FILTER || deer-apply-filter
+}
+
+deer-apply-filter()
+{
+    DEER_FILTER[$DEER_DIRNAME]=$1
+    deer-refocus
 }
 
 # Draw an arrow pointing to the selected file.
@@ -311,7 +310,7 @@ deer-launch()
     else
         # Don't change cwd but initialize the variables.
         deer-leave
-        deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME]:-'*'}
+        deer-enter
     fi
 
     deer-refresh
