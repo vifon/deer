@@ -41,30 +41,30 @@ If you activate `deer` with the cursor on a path, it will start in there.
 These functions can be bound to some custom key (the default is in the
 parentheses):
 
-* `down` (j) -- one item down
-* `page_down` (J) -- five items down
-* `up` (k) -- one item up
-* `page_up` (K) -- five items up
-* `enter` (l) -- enter into the selected directory
-* `leave` (h) -- leave the current directory (one directory up)
-* `next_parent` (]) -- one item down in the left column
-* `prev_parent` ([]) -- one item up in the left column
-* `search` (/) -- select the first file matching the given pattern
-* `filter` (f) -- shows only files matching the given pattern
-* `toggle_hidden` (H) -- show/hide the hidden files
-* `quit` (q) -- exit `deer`
-* `append_path` (a) -- insert the current path and leave the cursor on
+* `down` (<kbd>j</kbd>) -- one item down
+* `page_down` (<kbd>J</kbd>) -- five items down
+* `up` (<kbd>k</kbd>) -- one item up
+* `page_up` (<kbd>K</kbd>) -- five items up
+* `enter` (<kbd>l</kbd>) -- enter into the selected directory
+* `leave` (<kbd>h</kbd>) -- leave the current directory (one directory up)
+* `next_parent` (<kbd>]</kbd>) -- one item down in the left column
+* `prev_parent` (<kbd>[</kbd>) -- one item up in the left column
+* `search` (<kbd>/</kbd>) -- select the first file matching the given pattern
+* `filter` (<kbd>f</kbd>) -- shows only files matching the given pattern
+* `toggle_hidden` (<kbd>H</kbd>) -- show/hide the hidden files
+* `quit` (<kbd>q</kbd>) -- exit `deer`
+* `append_path` (<kbd>a</kbd>) -- insert the current path and leave the cursor on
   its right
-* `append_abs_path` (A) -- absolute path version
-* `insert_path` (i) -- insert the current path and leave the cursor on
+* `append_abs_path` (<kbd>A</kbd>) -- absolute path version
+* `insert_path` (<kbd>i</kbd>) -- insert the current path and leave the cursor on
   its left
-* `insert_abs_path` (i) -- absolute path version
-* `multi_insert_dwim` (s) -- insert the current path, add a smart separator
+* `insert_abs_path` (<kbd>i</kbd>) -- absolute path version
+* `multi_insert_dwim` (<kbd>s</kbd>) -- insert the current path, add a smart separator
   (using the last character before the cursor, unless it's an opening
   brace) and don't quit yet
-* `chdir` (c) -- cd into the current directory and quit
-* `chdir_selected` (C) -- cd into the selected directory and quit
-* `rifle` (r) -- run `rifle(1)` on the selected file
+* `chdir` (<kbd>c</kbd>) -- cd into the current directory and quit
+* `chdir_selected` (<kbd>C</kbd>) -- cd into the selected directory and quit
+* `rifle` (<kbd>r</kbd>) -- run `rifle(1)` on the selected file
 
 To bind the function to a different key, add something like this to
 your `zshrc`:
@@ -73,7 +73,7 @@ your `zshrc`:
     DEER_KEYS[function]=key
 
 The `DEER_KEYS` variable is an associative array holding the keys
-associated with functions. One function may only be bound to one key
+associated with functions. One function may be bound to only one key
 (the previous one is overwritten).
 
 INSTALLATION
