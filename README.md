@@ -47,6 +47,8 @@ parentheses):
 * `page_up` (K) -- five items up
 * `enter` (l) -- enter into the selected directory
 * `leave` (h) -- leave the current directory (one directory up)
+* `next_parent` (]) -- one item down in the left column
+* `prev_parent` ([]) -- one item up in the left column
 * `search` (/) -- select the first file matching the given pattern
 * `filter` (f) -- shows only files matching the given pattern
 * `toggle_hidden` (H) -- show/hide the hidden files

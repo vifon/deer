@@ -33,6 +33,8 @@ function ()
   page_up   K                                   \
   enter l                                       \
   leave h                                       \
+  next_parent ']'                               \
+  prev_parent '['                               \
   search /                                      \
   filter f                                      \
   toggle_hidden H                               \
@@ -340,6 +342,18 @@ deer-launch()
             # Leave the directory and implicitly reset the filter.
             $DEER_KEYS[leave])
                 deer-leave
+                deer-preview
+                ;;
+            $DEER_KEYS[next_parent])
+                deer-leave
+                deer-move 1
+                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}
+                deer-preview
+                ;;
+            $DEER_KEYS[prev_parent])
+                deer-leave
+                deer-move -1
+                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}
                 deer-preview
                 ;;
             # Search
