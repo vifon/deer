@@ -336,7 +336,7 @@ deer-launch()
                 ;;
             # Enter the selected directory and reset the filter.
             $DEER_KEYS[enter])
-                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}
+                deer-enter
                 deer-preview
                 ;;
             # Leave the directory and implicitly reset the filter.
@@ -347,13 +347,13 @@ deer-launch()
             $DEER_KEYS[next_parent])
                 deer-leave
                 deer-move 1
-                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}
+                deer-enter
                 deer-preview
                 ;;
             $DEER_KEYS[prev_parent])
                 deer-leave
                 deer-move -1
-                deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]]:-'*'}
+                deer-enter
                 deer-preview
                 ;;
             # Search
