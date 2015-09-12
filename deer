@@ -97,7 +97,7 @@ deer-enter()
     fi
 }
 
-# Leave the directory and reset the file filter.
+# Move to the parent directory
 deer-leave()
 {
     [ $DEER_DIRNAME = / ] && return
@@ -332,12 +332,10 @@ deer-launch()
                 deer-move 5
                 deer-refresh
                 ;;
-            # Enter the selected directory and reset the filter.
             $DEER_KEYS[enter])
                 deer-enter
                 deer-refresh
                 ;;
-            # Leave the directory and implicitly reset the filter.
             $DEER_KEYS[leave])
                 deer-leave
                 deer-refresh
