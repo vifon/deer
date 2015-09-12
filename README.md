@@ -199,7 +199,7 @@ Wojciech 'vifon' Siewierski < wojciech dot siewierski at gmail dot com >
 COPYRIGHT
 ---------
 
-Copyright (C) 2014  Wojciech Siewierski
+Copyright (C) 2014-2015  Wojciech Siewierski
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
