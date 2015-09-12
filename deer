@@ -166,7 +166,7 @@ deer-mark-file-list()
 }
 
 # Draw the file lists in the form of Miller columns.
-deer-preview()
+deer-refresh()
 {
     local FILES PREVIEW PARENTFILES OUTPUT REL_DIRNAME
     local SEPARATOR="------"
@@ -314,57 +314,57 @@ deer-launch()
         deer-enter --filter ${DEER_FILTER[$DEER_DIRNAME]:-'*'}
     fi
 
-    deer-preview
+    deer-refresh
     while read -k; do
         case $REPLY in
             # Movement
             $DEER_KEYS[up])
                 deer-move -1
-                deer-preview
+                deer-refresh
                 ;;
             $DEER_KEYS[page_up])
                 deer-move -5
-                deer-preview
+                deer-refresh
                 ;;
             $DEER_KEYS[down])
                 deer-move 1
-                deer-preview
+                deer-refresh
                 ;;
             $DEER_KEYS[page_down])
                 deer-move 5
-                deer-preview
+                deer-refresh
                 ;;
             # Enter the selected directory and reset the filter.
             $DEER_KEYS[enter])
                 deer-enter
-                deer-preview
+                deer-refresh
                 ;;
             # Leave the directory and implicitly reset the filter.
             $DEER_KEYS[leave])
                 deer-leave
-                deer-preview
+                deer-refresh
                 ;;
             $DEER_KEYS[next_parent])
                 deer-leave
                 deer-move 1
                 deer-enter
-                deer-preview
+                deer-refresh
                 ;;
             $DEER_KEYS[prev_parent])
                 deer-leave
                 deer-move -1
                 deer-enter
-                deer-preview
+                deer-refresh
                 ;;
             # Search
             $DEER_KEYS[search])
                 deer-search
-                deer-preview
+                deer-refresh
                 ;;
             # Filter
             $DEER_KEYS[filter])
                 deer-filter
-                deer-preview
+                deer-refresh
                 ;;
             $DEER_KEYS[toggle_hidden])
                 if [ -z $DEER_GLOBFLAGS ]; then
@@ -376,7 +376,7 @@ deer-launch()
                 DEER_BASENAME[$DEER_DIRNAME]=
                 deer-leave
                 deer-enter
-                deer-preview
+                deer-refresh
                 ;;
             # Quit
             $DEER_KEYS[quit])
@@ -407,7 +407,7 @@ deer-launch()
                 fi
                 # replacement used to insert ',' instead of '{' as a separator in {foo,bar,...} lists
                 deer-add --append "`deer-get-relative`"${${OLD_LBUFFER[-1]/\{/,}:- }
-                deer-preview
+                deer-refresh
                 ;;
             # Quit and change the shell's current directory to the selected one.
             $DEER_KEYS[chdir])
