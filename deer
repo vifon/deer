@@ -132,14 +132,11 @@ deer-filter()
 {
     deer-prompt "filter"
 
-    local TMP_FILTER
     if [ -n "$BUFFER" ]; then
-        TMP_FILTER=*$BUFFER*
-    else
-        TMP_FILTER=*
+        BUFFER=*$BUFFER*
     fi
 
-    deer-apply-filter $TMP_FILTER || deer-apply-filter
+    deer-apply-filter $BUFFER || deer-apply-filter
 }
 
 deer-apply-filter()
@@ -175,7 +172,9 @@ deer-refresh()
     [ -n "$DEER_STARTDIR" ] && REL_DIRNAME=${REL_DIRNAME#/}
     LBUFFER=$REL_DIRNAME$DEER_BASENAME[$DEER_DIRNAME]
     RBUFFER=""
-    POSTDISPLAY=${DEER_FILTER[$DEER_DIRNAME]:+  filt:${${DEER_FILTER[$DEER_DIRNAME]%'*'}#'*'}}
+    local TMP_FILTER
+    TMP_FILTER=${DEER_FILTER[$DEER_DIRNAME]}
+    POSTDISPLAY=${TMP_FILTER:+  filt:$TMP_FILTER}
     region_highlight=("P0       $#PREDISPLAY              fg=black,bold"
                       "0        $#REL_DIRNAME             fg=blue,bold"
                       "$#BUFFER $[$#BUFFER+$#POSTDISPLAY] fg=yellow,bold")
