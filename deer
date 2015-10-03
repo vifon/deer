@@ -381,19 +381,19 @@ deer-launch()
                 ;;
             # Insert the path and quit.
             $DEER_KEYS[append_path])
-                deer-restore --append "`deer-get-relative`"
+                deer-restore --append "`deer-get-relative` "
                 break
                 ;;
             $DEER_KEYS[append_abs_path])
-                deer-restore --append ${${DEER_DIRNAME%/}:q}/${DEER_BASENAME[$DEER_DIRNAME]:q}
+                deer-restore --append "${${DEER_DIRNAME%/}:q}/${DEER_BASENAME[$DEER_DIRNAME]:q} "
                 break
                 ;;
             $DEER_KEYS[insert_path])
-                deer-restore --insert "`deer-get-relative`"
+                deer-restore --insert " `deer-get-relative`"
                 break
                 ;;
             $DEER_KEYS[insert_abs_path])
-                deer-restore --insert ${${DEER_DIRNAME%/}:q}/${DEER_BASENAME[$DEER_DIRNAME]:q}
+                deer-restore --insert " ${${DEER_DIRNAME%/}:q}/${DEER_BASENAME[$DEER_DIRNAME]:q}"
                 break
                 ;;
             # Insert the path and don't quit yet.
