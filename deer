@@ -218,7 +218,7 @@ deer-refresh()
                         <(<<< $FILES)                        \
                         <(<<< $PREVIEW)                      \
                 | sed 's,/, / ,g'                            \
-                | column -t -s/                              \
+                | column -t -s/ 2> /dev/null                 \
                 | awk -v width=$COLUMNS '{print substr($0,1,width-1)}')"
     zle -M -- $OUTPUT
     zle -R
