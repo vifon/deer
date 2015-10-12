@@ -61,7 +61,7 @@ parentheses):
 * `insert_abs_path` (<kbd>i</kbd>) -- absolute path version
 * `multi_insert_dwim` (<kbd>s</kbd>) -- insert the current path, add a smart separator
   (using the last character before the cursor, unless it's an opening
-  brace) and don't quit yet
+  brace (then use a comma))), move the cursor down and don't quit yet
 * `chdir` (<kbd>c</kbd>) -- cd into the current directory and quit
 * `chdir_selected` (<kbd>C</kbd>) -- cd into the selected directory and quit
 * `rifle` (<kbd>r</kbd>) -- run `rifle(1)` on the selected file
