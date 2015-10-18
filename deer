@@ -426,4 +426,6 @@ deer-launch()
     done
 }
 
-zle && deer-launch
+if zle; then
+    deer-launch
+fi
