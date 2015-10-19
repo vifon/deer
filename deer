@@ -428,4 +428,9 @@ deer-launch()
 
 if zle; then
     deer-launch
+else
+    deer()
+    {
+        deer-launch "$@"
+    }
 fi

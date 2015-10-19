@@ -102,8 +102,8 @@ Alternatively, you can directly source the file `deer`, and bind the
 initialization function to `alt+k` as follows:
 
     source /path/to/deer
-    zle -N deer-launch
-    bindkey '\ek' deer-launch
+    zle -N deer
+    bindkey '\ek' deer
 
 CONFIGURATION
 -------------
