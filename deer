@@ -132,7 +132,7 @@ deer-filter()
 {
     deer-prompt "filter"
 
-    if [ -n "$BUFFER" ]; then
+    if [ -n "$BUFFER" ] && [[ ! $BUFFER == *\** ]]; then
         BUFFER=*$BUFFER*
     fi
 
