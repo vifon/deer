@@ -10,71 +10,70 @@ heavily inspired by [ranger](http://ranger.nongnu.org/).
 **WHY**
 
 I've created `deer` because I really like to use `ranger` as an
-extension of my shell to navigate the directories but its startup time
-(even though still short) is sometimes too cumbersome. `deer`
-implements the very basic ranger-like file navigation + some basic
-operations on the commandline, like inserting the selected path (in
-various ways). Not using the whole terminal can be viewed as an
-another feature.
+extension of my shell to quickly navigate the
+directories. Unfortunately, its startup time (even though short) is
+sometimes cumbersome. `deer` implements the very basic ranger-like
+file navigation + some basic operations on the commandline, like
+inserting the selected path (in various ways), which makes it fast to
+launch and ideal for the task. Not using the whole terminal can be
+viewed as an another feature.
 
 Pros:  
-* launches much faster  
-* better shell integration  
-* retains the terminal contents and only uses a small part of the terminal  
+* Launches much faster.
+* Better shell integration.
+* Retains the terminal contents and only uses a small part of the terminal.
 
 Cons:  
-* offers only a small subset of `ranger's` features  
-* needs `zsh`  
+* Offers only a small subset of `ranger's` features.
+* Needs `zsh`.
 
 USAGE
 -----
 
 To launch `deer`, press `alt+k`.
 
-You can supply the numeric argument (`alt-number`) to go up the
-appropriate number of directory levels on start.
+You can supply a numeric argument (`alt-number`) to go up the
+appropriate number of directory levels upon start.
 
 If you activate `deer` with the cursor on a path, it will start in there.
 
 **KEYS AND FUNCTIONS**
 
-These functions can be bound to some custom key (the default is in the
+These functions can be bound custom keys (the default is in the
 parentheses):
 
-* `down` (<kbd>j</kbd>) -- one item down
-* `page_down` (<kbd>J</kbd>) -- five items down
-* `up` (<kbd>k</kbd>) -- one item up
-* `page_up` (<kbd>K</kbd>) -- five items up
-* `enter` (<kbd>l</kbd>) -- enter into the selected directory
-* `leave` (<kbd>h</kbd>) -- leave the current directory (one directory up)
-* `next_parent` (<kbd>]</kbd>) -- one item down in the left column
-* `prev_parent` (<kbd>[</kbd>) -- one item up in the left column
-* `search` (<kbd>/</kbd>) -- select the first file matching the given pattern
-* `filter` (<kbd>f</kbd>) -- shows only files matching the given pattern
-* `toggle_hidden` (<kbd>H</kbd>) -- show/hide the hidden files
-* `quit` (<kbd>q</kbd>) -- exit `deer`
-* `append_path` (<kbd>a</kbd>) -- insert the current path and leave the cursor on
-  its right
-* `append_abs_path` (<kbd>A</kbd>) -- absolute path version
-* `insert_path` (<kbd>i</kbd>) -- insert the current path and leave the cursor on
-  its left
-* `insert_abs_path` (<kbd>i</kbd>) -- absolute path version
-* `multi_insert_dwim` (<kbd>s</kbd>) -- insert the current path, add a smart separator
-  (using the last character before the cursor, unless it's an opening
-  brace (then use a comma))), move the cursor down and don't quit yet
-* `chdir` (<kbd>c</kbd>) -- cd into the current directory and quit
-* `chdir_selected` (<kbd>C</kbd>) -- cd into the selected directory and quit
-* `rifle` (<kbd>r</kbd>) -- run `rifle(1)` on the selected file
+* `down` (<kbd>j</kbd>) -- One item down.
+* `page_down` (<kbd>J</kbd>) -- Five items down.
+* `up` (<kbd>k</kbd>) -- One item up.
+* `page_up` (<kbd>K</kbd>) -- Five items up.
+* `enter` (<kbd>l</kbd>) -- Enter the selected directory.
+* `leave` (<kbd>h</kbd>) -- Leave the current directory (one directory up).
+* `next_parent` (<kbd>]</kbd>) -- One item down in the left column.
+* `prev_parent` (<kbd>[</kbd>) -- One item up in the left column.
+* `search` (<kbd>/</kbd>) -- Select the first file matching the given pattern.
+* `filter` (<kbd>f</kbd>) -- Shows only files matching the given pattern.
+* `toggle_hidden` (<kbd>H</kbd>) -- Show/hide the hidden files.
+* `quit` (<kbd>q</kbd>) -- Exit `deer`.
+* `append_path` (<kbd>a</kbd>) -- Insert the current path and leave the cursor on its right.
+* `append_abs_path` (<kbd>A</kbd>) -- Absolute path version.
+* `insert_path` (<kbd>i</kbd>) -- Insert the current path and leave the cursor on its left.
+* `insert_abs_path` (<kbd>i</kbd>) -- Absolute path version.
+* `multi_insert_dwim` (<kbd>s</kbd>) -- Insert the current path, add a smart separator using the last character before the cursor (unless it's an opening brace, then use a comma), move the cursor down and don't quit yet.
+* `chdir` (<kbd>c</kbd>) -- `cd` into the current directory and quit.
+* `chdir_selected` (<kbd>C</kbd>) -- `cd` into the selected directory and quit.
+* `rifle` (<kbd>r</kbd>) -- Run `rifle(1)` on the selected file.
 
-To bind the function to a different key, add something like this to
-your `zshrc`:
+To bind a function to a different key, add something like this to your
+`.zshrc`:
 
-    typeset -Ag DEER_KEYS
-    DEER_KEYS[function]=key
+```
+typeset -Ag DEER_KEYS
+DEER_KEYS[function]=key
+```
 
 The `DEER_KEYS` variable is an associative array holding the keys
 associated with functions. One function may be bound to only one key
-(the previous one is overwritten).
+(meaning the previous one is overwritten).
 
 INSTALLATION
 ------------
@@ -88,22 +87,28 @@ use some other directory, modify the commands below accordingly.
 Copy the `deer` main file to `~/.fpath` and make sure it gets
 autoloaded in your `zshrc`:
 
-    autoload -U deer
+```
+autoload -U deer
+```
 
 Adding these lines will make the script available to the line editor, and bind
 it to `alt+k` respectively:
 
-    zle -N deer
-    bindkey '\ek' deer
+```
+zle -N deer
+bindkey '\ek' deer
+```
 
 **Second method**
 
 Alternatively, you can directly source the file `deer`, and bind the
 initialization function to `alt+k` as follows:
 
-    source /path/to/deer
-    zle -N deer
-    bindkey '\ek' deer
+```
+source /path/to/deer
+zle -N deer
+bindkey '\ek' deer
+```
 
 CONFIGURATION
 -------------
@@ -112,28 +117,34 @@ By default, `deer` will use 22 lines of your terminal. This is configurable
 with the `zstyle` mechanism. Drop a line like this in `zshrc` to adjust this
 setting:
 
-    zstyle ':deer:' height 35
+```
+zstyle ':deer:' height 35
+```
 
 To customize the keys used by `deer`, you may use the following code:
 
-    typeset -Ag DEER_KEYS   # prepare the associative table
-    DEER_KEYS[action_name]=key
+```
+typeset -Ag DEER_KEYS   # Prepare the associative table.
+DEER_KEYS[action_name]=key
+```
 
 Users of the Colemak keyboard layout may use the included
 `colemak_keys.sh` file to adjust the default keys to Colemak:
 
-    source colemak_keys.sh
+```
+source colemak_keys.sh.
+```
 
 KNOWN ISSUES
 ------------
 
-_These are the issues I'm aware of, which I've decided not to fix for
-now, along with a reason. If you think any of them is a dealbreaker,
-open a ticket on Github and I'll see what I can do._
+_These are the issues that I'm aware of, along with the reason for why
+I've decided not to fix them for now. If you think any of them is a
+dealbreaker, open a ticket on Github and I'll see what I can do._
 
 **Slashes are replaced with backslashes in file previews**
 
-This is an ugly workaround the issues with the way the output is
+This is an ugly workaround, and the issue is with the way the output is
 formatted (slash is used as a separator for `paste(1)` and
 `column(1)` as it cannot appear in the filename).
 
@@ -167,13 +178,13 @@ line editor) and I cannot do much about it.
 
 **Why are there so many strange features and their variations?**
 
-At first I add the new features taylored for myself. Later I plan to
+At first I add new features taylored for myself. Later I plan to
 review these features and clean them up. If you need something else,
 please leave a feature request or add it yourself if you know how.
 
 **The key binding system is ugly**
 
-Yes. It is. I plan to replace it with a proper keymap but for now it
+Yes, it is. I plan to replace it with a proper keymap but for now it
 should suffice.
 
 RELATED PROJECTS
