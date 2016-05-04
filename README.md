@@ -59,7 +59,7 @@ parentheses):
 * `append_path` (<kbd>a</kbd>) -- Insert the current path and leave the cursor on its right.
 * `append_abs_path` (<kbd>A</kbd>) -- Absolute path version.
 * `insert_path` (<kbd>i</kbd>) -- Insert the current path and leave the cursor on its left.
-* `insert_abs_path` (<kbd>i</kbd>) -- Absolute path version.
+* `insert_abs_path` (<kbd>I</kbd>) -- Absolute path version.
 * `multi_insert_dwim` (<kbd>s</kbd>) -- Insert the current path, add a smart separator using the last character before the cursor (unless it's an opening brace, then use a comma), move the cursor down and don't quit yet.
 * `chdir` (<kbd>c</kbd>) -- `cd` into the current directory and quit.
 * `chdir_selected` (<kbd>C</kbd>) -- `cd` into the selected directory and quit.
