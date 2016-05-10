@@ -119,6 +119,8 @@ Using antigen:
 ```
 antigen bundle hugoh/deer
 antigen apply
+zle -N deer
+bindkey '\ek' deer
 ```
 
 CONFIGURATION
