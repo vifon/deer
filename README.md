@@ -112,6 +112,15 @@ zle -N deer
 bindkey '\ek' deer
 ```
 
+**Third matter**
+
+Using antigen:
+
+```
+antigen bundle hugoh/deer
+antigen apply
+```
+
 CONFIGURATION
 -------------
 
