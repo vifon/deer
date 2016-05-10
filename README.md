@@ -117,7 +117,7 @@ bindkey '\ek' deer
 Using antigen:
 
 ```
-antigen bundle hugoh/deer
+antigen bundle Vifon/deer
 antigen apply
 zle -N deer
 bindkey '\ek' deer
