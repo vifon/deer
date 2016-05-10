@@ -112,6 +112,17 @@ zle -N deer
 bindkey '\ek' deer
 ```
 
+**Third method**
+
+With [antigen](https://github.com/zsh-users/antigen):
+
+```
+antigen bundle Vifon/deer deer
+antigen apply
+zle -N deer
+bindkey '\ek' deer
+```
+
 CONFIGURATION
 -------------
 
