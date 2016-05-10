@@ -112,6 +112,17 @@ zle -N deer
 bindkey '\ek' deer
 ```
 
+**Third matter**
+
+Using antigen:
+
+```
+antigen bundle Vifon/deer
+antigen apply
+zle -N deer
+bindkey '\ek' deer
+```
+
 CONFIGURATION
 -------------
 
