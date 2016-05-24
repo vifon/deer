@@ -86,8 +86,8 @@ I assume you have `~/.fpath` added to your `$FPATH` variable here. If
 you don't, either add it or use the second installation method. If you
 use some other directory, modify the commands below accordingly.
 
-Copy the `deer` main file to `~/.fpath` and make sure it gets
-autoloaded in your `zshrc`:
+Copy the `deer` main file to `~/.fpath/deer` (without ".sh" at the
+end!) and make sure it gets autoloaded in your `zshrc`:
 
 ```
 autoload -U deer
@@ -107,7 +107,7 @@ Alternatively, you can directly source the file `deer`, and bind the
 initialization function to `alt+k` as follows:
 
 ```
-source /path/to/deer
+source /path/to/deer.sh
 zle -N deer
 bindkey '\ek' deer
 ```
@@ -117,7 +117,7 @@ bindkey '\ek' deer
 With [antigen](https://github.com/zsh-users/antigen):
 
 ```
-antigen bundle Vifon/deer deer
+antigen bundle Vifon/deer
 antigen apply
 zle -N deer
 bindkey '\ek' deer
