@@ -44,6 +44,7 @@ function ()
   insert_path     i                             \
   insert_abs_path I                             \
   multi_insert_dwim s                           \
+  multi_insert_abs S                            \
   chdir c                                       \
   chdir_selected C                              \
   rifle r                                       \
@@ -406,6 +407,12 @@ deer-launch()
                 fi
                 # replacement used to insert ',' instead of '{' as a separator in {foo,bar,...} lists
                 deer-add --append "`deer-get-relative`"${${OLD_LBUFFER[-1]/\{/,}:- }
+                deer-move 1
+                deer-refresh
+                ;;
+            # Insert the absolute path and don't quit yet.
+            $DEER_KEYS[multi_insert_abs])
+                deer-add --append " ${${DEER_DIRNAME%/}:q}/${DEER_BASENAME[$DEER_DIRNAME]:q}"
                 deer-move 1
                 deer-refresh
                 ;;
