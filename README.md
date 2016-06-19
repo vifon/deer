@@ -119,7 +119,7 @@ With a plugin manager. Tested with
 [antigen](https://github.com/zsh-users/antigen) and
 [zgen](https://github.com/tarjoilija/zgen):
 
-1. antigen:
+- antigen:
 
 ```
 antigen bundle Vifon/deer
@@ -129,7 +129,7 @@ zle -N deer
 bindkey '\ek' deer
 ```
 
-2. zgen:
+- zgen:
 
 ```
 zgen load Vifon/deer
