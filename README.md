@@ -87,8 +87,8 @@ I assume you have `~/.fpath` added to your `$FPATH` variable here. If
 you don't, either add it or use the second installation method. If you
 use some other directory, modify the commands below accordingly.
 
-Copy the `deer` main file to `~/.fpath/deer` (without ".sh" at the
-end!) and make sure it gets autoloaded in your `zshrc`:
+Copy the `deer` main file to `~/.fpath/deer` and make sure it gets
+autoloaded in your `zshrc`:
 
 ```
 autoload -U deer
@@ -115,11 +115,26 @@ bindkey '\ek' deer
 
 **Third method**
 
-With [antigen](https://github.com/zsh-users/antigen):
+With a plugin manager. Tested with
+[antigen](https://github.com/zsh-users/antigen) and
+[zgen](https://github.com/tarjoilija/zgen):
+
+1. antigen:
 
 ```
 antigen bundle Vifon/deer
 antigen apply
+autoload -U deer
+zle -N deer
+bindkey '\ek' deer
+```
+
+2. zgen:
+
+```
+zgen load Vifon/deer
+zgen save
+autoload -U deer
 zle -N deer
 bindkey '\ek' deer
 ```
@@ -143,10 +158,10 @@ DEER_KEYS[action_name]=key
 ```
 
 Users of the Colemak keyboard layout may use the included
-`colemak_keys.sh` file to adjust the default keys to Colemak:
+`colemak_keys.sh.example` file to adjust the default keys to Colemak:
 
 ```
-source colemak_keys.sh.
+source colemak_keys.sh.example.
 ```
 
 KNOWN ISSUES
