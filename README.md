@@ -174,7 +174,7 @@ _These are the issues that I'm aware of, along with the reason for why
 I've decided not to fix them for now. If you think any of them is a
 dealbreaker, open a ticket on Github and I'll see what I can do._
 
-**Slashes are replaced with fraction slashes in file previews**
+**Slashes are replaced with division slashes (U+2215) in file previews**
 
 This is an ugly workaround, and the issue is with the way the output is
 formatted (slash is used as a separator for `paste(1)` and

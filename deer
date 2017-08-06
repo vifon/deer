@@ -199,9 +199,9 @@ deer-refresh()
         if file $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] | grep -Fq text; then
             PREVIEW="--- Preview: ---"$'\n'$(head -n$DEER_HEIGHT $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME])
 
-            # Replace '/' with '⁄' (fraction slash) to allow using it as a
+            # Replace '/' with '∕' (division slash, U+2215) to allow using it as a
             # paste(1)/column(1) separator.
-            PREVIEW=${PREVIEW//\//⁄}
+            PREVIEW=${PREVIEW//\//∕}
         else
             PREVIEW="--- Binary file, preview unavailable ---"
         fi
