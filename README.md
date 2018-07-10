@@ -119,8 +119,9 @@ bindkey '\ek' deer
 **Third method**
 
 With a plugin manager. Tested with
-[antigen](https://github.com/zsh-users/antigen) and
-[zgen](https://github.com/tarjoilija/zgen):
+[antigen](https://github.com/zsh-users/antigen),
+[zgen](https://github.com/tarjoilija/zgen) and
+[zplug](https://github.com/zplug/zplug):
 
 - antigen:
 
@@ -138,6 +139,14 @@ bindkey '\ek' deer
 zgen load Vifon/deer
 zgen save
 autoload -U deer
+zle -N deer
+bindkey '\ek' deer
+```
+
+- zplug:
+
+```
+zplug "vifon/deer", use:deer
 zle -N deer
 bindkey '\ek' deer
 ```
