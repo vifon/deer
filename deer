@@ -27,27 +27,27 @@ function ()
         DEER_KEYS[$1]=${DEER_KEYS[$1]:-$2}
         shift 2
     done
-} down      j                                   \
-  page_down J                                   \
-  up        k                                   \
-  page_up   K                                   \
-  enter l                                       \
-  leave h                                       \
-  next_parent ']'                               \
-  prev_parent '['                               \
-  search /                                      \
-  filter f                                      \
-  toggle_hidden H                               \
-  quit q                                        \
-  append_path     a                             \
-  append_abs_path A                             \
-  insert_path     i                             \
-  insert_abs_path I                             \
-  multi_insert_dwim s                           \
-  multi_insert_abs S                            \
-  chdir c                                       \
-  chdir_selected C                              \
-  rifle r                                       \
+} down                j    \
+  page_down           J    \
+  up                  k    \
+  page_up             K    \
+  enter               l    \
+  leave               h    \
+  next_parent         ']'  \
+  prev_parent         '['  \
+  search              /    \
+  filter              f    \
+  toggle_hidden       H    \
+  quit                q    \
+  append_path         a    \
+  append_abs_path     A    \
+  insert_path         i    \
+  insert_abs_path     I    \
+  multi_insert_dwim   s    \
+  multi_insert_abs    S    \
+  chdir               c    \
+  chdir_selected      C    \
+  rifle               r    \
 
 
 # Select the Nth next file. Pass a negative argument for the previous file.
