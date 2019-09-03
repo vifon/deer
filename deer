@@ -27,27 +27,27 @@ function ()
         DEER_KEYS[$1]=${DEER_KEYS[$1]:-$2}
         shift 2
     done
-} down      j                                   \
-  page_down J                                   \
-  up        k                                   \
-  page_up   K                                   \
-  enter l                                       \
-  leave h                                       \
-  next_parent ']'                               \
-  prev_parent '['                               \
-  search /                                      \
-  filter f                                      \
-  toggle_hidden H                               \
-  quit q                                        \
-  append_path     a                             \
-  append_abs_path A                             \
-  insert_path     i                             \
-  insert_abs_path I                             \
-  multi_insert_dwim s                           \
-  multi_insert_abs S                            \
-  chdir c                                       \
-  chdir_selected C                              \
-  rifle r                                       \
+} down                     j                    \
+  page_down                J                    \
+  up                       k                    \
+  page_up                  K                    \
+  enter                    l                    \
+  leave                    h                    \
+  next_parent              ']'                  \
+  prev_parent              '['                  \
+  search                   /                    \
+  filter                   f                    \
+  toggle_hidden            H                    \
+  quit                     q                    \
+  append_path              a                    \
+  append_abs_path          A                    \
+  insert_path              i                    \
+  insert_abs_path          I                    \
+  multi_insert_dwim        s                    \
+  multi_insert_abs         S                    \
+  chdir                    c                    \
+  chdir_selected           C                    \
+  rifle                    r                    \
 
 
 # Select the Nth next file. Pass a negative argument for the previous file.
@@ -156,9 +156,9 @@ deer-mark-file-list()
         | grep -Fx -B5 -A$DEER_HEIGHT -- "$MARKED" \
         | perl -pe 'BEGIN{$name = shift}
                     if ($name."\n" eq $_) {
-                        $_="-> $_"
+                        $_="> $_"
                     } else {
-                        $_="   $_"
+                        $_="  $_"
                     }' -- "$MARKED"
 }
 
@@ -317,7 +317,9 @@ deer-launch()
     fi
 
     deer-refresh
-    while read -k; do
+    while : 
+    do
+	read -k;
         case $REPLY in
 	    
             # Movement
@@ -433,7 +435,7 @@ deer-launch()
             $DEER_KEYS[rifle])
                 rifle $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]
                 ;;
-	    *)
+	    ^])
 		read -k; read -k
 		case $REPLY in
 		   "A")
