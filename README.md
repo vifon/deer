@@ -196,12 +196,6 @@ The shown path is created by deleting the preexisting prefix from the
 absolute path. It greatly simplifies the code and makes it easier to
 maintain (it's already quite messy in some places).
 
-**Functions cannot be bound to the arrow keys**
-
-Arrow keys are represented by the multi-character sequences. Currently
-the main loop reads only a single character. See the related entry in
-the **FAQ** section.
-
 **Buggy behavior in the root directory (/)**
 
 The root directory handling is quite tricky as it's the only directory
