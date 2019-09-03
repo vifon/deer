@@ -319,7 +319,6 @@ deer-launch()
     deer-refresh
     while read -k; do
         case $REPLY in
-	    
             # Movement
             $DEER_KEYS[up])
                 deer-move -1
@@ -433,27 +432,33 @@ deer-launch()
             $DEER_KEYS[rifle])
                 rifle $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME]
                 ;;
-	    *)
-		read -k; read -k
-		case $REPLY in
-		   "A")
-                      deer-move -1
-                      deer-refresh
-                   ;;
-            	   "B")
-                      deer-move 1
-                      deer-refresh
-                   ;;
-                   "C")
-                      deer-enter
-                      deer-refresh
-                   ;;
-                   "D")
-                      deer-leave
-                      deer-refresh
-                   ;;
-	        esac
-	     ;;
+            # Arrow keys
+            $'\e')
+                read -k
+                case $REPLY in
+                    '[')
+                        read -k
+                        case $REPLY in
+                            'A')
+                                deer-move -1
+                                deer-refresh
+                                ;;
+                            'B')
+                                deer-move 1
+                                deer-refresh
+                                ;;
+                            'C')
+                                deer-enter
+                                deer-refresh
+                                ;;
+                            'D')
+                                deer-leave
+                                deer-refresh
+                                ;;
+                        esac
+                        ;;
+                esac
+                ;;
         esac
     done
 }
