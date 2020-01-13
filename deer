@@ -236,7 +236,6 @@ deer-restore()
     LBUFFER=$OLD_LBUFFER
     RBUFFER=$OLD_RBUFFER
     zle reset-prompt
-    zle redisplay
     zle -M ""
 }
 
