@@ -68,6 +68,7 @@ parentheses):
 * `chdir` (<kbd>c</kbd>) -- `cd` into the current directory and quit.
 * `chdir_selected` (<kbd>C</kbd>) -- `cd` into the selected directory and quit.
 * `rifle` (<kbd>r</kbd>) -- Run `rifle(1)` on the selected file.
+* `edit` (<kbd>e</kbd>) -- Run `$EDITOR` on the selected file (default to vim).
 
 To bind a function to a different key, add something like this to your
 `.zshrc`:
