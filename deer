@@ -419,8 +419,10 @@ deer-launch()
                 ;;
             # Quit and change the shell's current directory to the selected one.
             $DEER_KEYS[chdir])
-                deer-leave
-                ;&
+                cd -- "$DEER_DIRNAME"
+                deer-restore
+                break
+                ;;
             $DEER_KEYS[chdir_selected])
                 if [[ -d $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] && \
                       -x $DEER_DIRNAME/$DEER_BASENAME[$DEER_DIRNAME] ]]; then
