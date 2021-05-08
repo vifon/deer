@@ -163,6 +163,12 @@ setting:
 zstyle ':deer:' height 35
 ```
 
+Show the hidden files by default:
+
+```
+zstyle :deer: show_hidden yes
+```
+
 To customize the keys used by `deer`, you may use the following code:
 
 ```

@@ -18,6 +18,7 @@
 #########################################################################
 
 zstyle -s ":deer:" height DEER_HEIGHT || DEER_HEIGHT=22
+zstyle -b ":deer:" show_hidden DEER_SHOW_HIDDEN
 
 
 typeset -Ag DEER_KEYS
@@ -305,7 +306,11 @@ deer-launch()
 
     deer-set-initial-directory
 
-    DEER_GLOBFLAGS=""
+    if [ "$DEER_SHOW_HIDDEN" = yes ]; then
+        DEER_GLOBFLAGS=D
+    else
+        DEER_GLOBFLAGS=""
+    fi
 
     if [ -n "$NUMERIC" ]; then
         for i in {1..$NUMERIC}; do
