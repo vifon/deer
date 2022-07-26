@@ -119,6 +119,12 @@ bindkey '\ek' deer
 
 **Third method**
 
+Install `deer` with [Fig](https://fig.io) in just one click.
+
+<a href="https://fig.io/plugins/other/deer_vifon" target="_blank"><img src="https://fig.io/badges/install-with-fig.svg" /></a>
+
+**Forth method**
+
 With a plugin manager. Tested with
 [antigen](https://github.com/zsh-users/antigen),
 [zgen](https://github.com/tarjoilija/zgen) and
